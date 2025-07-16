@@ -1,7 +1,4 @@
-// Espera a que la página se cargue
 document.addEventListener('DOMContentLoaded', () => {
-
-    // Extrae la ID de la partida desde la URL de la página
     const pathParts = window.location.pathname.split('/');
     const matchId = pathParts[pathParts.length - 1];
 
@@ -10,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Llama a nuestra propia API para obtener los datos de la partida
     fetch(`/api/getMatch?id=${matchId}`)
         .then(response => {
             if (!response.ok) {
@@ -19,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(matchData => {
-            // Una vez que tenemos los datos reales, llamamos a las funciones para rellenar la página
             fillPageData(matchData);
-            createKillsList(matchData); // <--- AÑADIDO: Llamada a la nueva función
+            createKillsList(matchData);
+            createLobbyActivity(matchData);
         })
         .catch(error => {
             console.error('Failed to fetch match data:', error);
@@ -30,24 +26,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fillPageData(matchData) {
-    // Info del jugador
     document.getElementById('playerName').textContent = matchData.player_name;
     document.getElementById('playerRank').textContent = `${matchData.player_rank_name} (${matchData.player_rank_points} Points)`;
-
-    // Info de la partida
     document.getElementById('date').textContent = matchData.match_date;
     document.getElementById('type').textContent = matchData.match_type;
     document.getElementById('map').textContent = matchData.match_map;
     document.getElementById('killedBy').textContent = matchData.killed_by;
     document.getElementById('killerRank').textContent = `${matchData.killer_rank_name} (${matchData.killer_rank_points} Points)`;
-    
-    // Estadísticas
     document.getElementById('position').textContent = matchData.position;
     document.getElementById('kills').textContent = matchData.kills;
     document.getElementById('assists').textContent = matchData.assists;
     document.getElementById('damage').textContent = Math.round(matchData.damage);
 
-    // Lista de compañeros
     const teamList = document.getElementById('team-list');
     teamList.innerHTML = '';
     if (matchData.teammates && matchData.teammates.length > 0) {
@@ -61,10 +51,8 @@ function fillPageData(matchData) {
         teamList.innerHTML = '<li>No teammates in this match.</li>';
     }
 
-    // Reproductor de Twitch
     const heroVideoSection = document.querySelector('.hero-video-section');
     const encounter = matchData.encounters && matchData.encounters.length > 0 ? matchData.encounters[0] : null;
-
     if (encounter && encounter.videoId) {
         new Twitch.Embed("twitch-embed", {
             width: "100%",
@@ -78,28 +66,63 @@ function fillPageData(matchData) {
     }
 }
 
-// ### NUEVA FUNCIÓN AÑADIDA ###
 function createKillsList(matchData) {
     const killList = document.getElementById('kill-list');
-    
-    // Oculta la tarjeta de kills por defecto
     const card = killList.closest('.grid-card');
-    if (card) {
-        card.style.display = 'none';
-    }
+    if (card) card.style.display = 'none';
 
     if (matchData.kills_list && matchData.kills_list.length > 0) {
-        // Si hay kills, muestra la tarjeta
-        if (card) {
-            card.style.display = 'block';
-        }
-
-        killList.innerHTML = ''; // Limpiamos la lista
+        if (card) card.style.display = 'block';
+        killList.innerHTML = '';
         matchData.kills_list.forEach(kill => {
             const li = document.createElement('li');
             const rankText = (kill.rankName !== 'Unranked') ? `(${kill.rankName} - ${kill.rankPoints} Points)` : '(Unranked)';
             li.innerHTML = `<div>💀 ${kill.name}</div><div class="rank-info">${rankText}</div>`;
             killList.appendChild(li);
         });
+    }
+}
+
+function createLobbyActivity(matchData) {
+    const container = document.getElementById('lobby-activity-content');
+    const card = container.closest('.grid-card');
+    
+    if (!matchData.online_streamers && !matchData.offline_streamers_count) {
+        if(card) card.style.display = 'none';
+        return;
+    }
+
+    container.innerHTML = ''; // Limpiar contenido
+
+    // Mostrar streamers online
+    if (matchData.online_streamers && matchData.online_streamers.length > 0) {
+        const onlineTitle = document.createElement('h3');
+        onlineTitle.textContent = '🔴 Online Streamers';
+        container.appendChild(onlineTitle);
+
+        const onlineList = document.createElement('ul');
+        onlineList.className = 'online-streamer-list';
+        matchData.online_streamers.forEach(streamer => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <a href="https://twitch.tv/${streamer.name}" target="_blank" rel="noopener noreferrer">
+                    <div>
+                        <span class="online-icon">●</span>
+                        <span class="online-streamer-name">${streamer.name}</span>
+                    </div>
+                    <div class="online-streamer-viewers">${streamer.viewers} viewers</div>
+                </a>
+            `;
+            onlineList.appendChild(li);
+        });
+        container.appendChild(onlineList);
+    }
+
+    // Mostrar contador de streamers offline
+    if (matchData.offline_streamers_count > 0) {
+        const offlineInfo = document.createElement('div');
+        offlineInfo.className = 'offline-streamers-info';
+        offlineInfo.textContent = `And ${matchData.offline_streamers_count} other known streamers were offline.`;
+        container.appendChild(offlineInfo);
     }
 }
