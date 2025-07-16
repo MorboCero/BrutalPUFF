@@ -1,127 +1,157 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
 :root {
-    --matrix-green: #39FF14;
-    --dark-bg: #0d0d0d;
-    --dark-card: #1a1a1a;
-    --medium-grey: #2a2a2a;
-    --light-grey: #cccccc;
+    --green-glow: #39FF14;
+    --dark-bg: #0A0B0F;
+    --card-bg: linear-gradient(145deg, #1a1b20, #111216);
+    --border-color: rgba(57, 255, 20, 0.2);
+    --text-primary: #EAEAEA;
+    --text-secondary: #8892b0;
     --rank-gold: #ffc107;
+    --twitch-purple: #9146ff;
 }
 
 body {
     background-color: var(--dark-bg);
-    background-image: 
-        linear-gradient(var(--medium-grey) 1px, transparent 1px),
-        linear-gradient(to right, var(--medium-grey) 1px, transparent 1px);
-    background-size: 20px 20px;
+    /* --- Patrón de cruces invertidas con SVG --- */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%231a1b20' fill-opacity='0.4'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.59l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     font-family: 'Roboto Mono', monospace;
-    color: var(--light-grey);
+    color: var(--text-primary);
     padding: 20px;
     box-sizing: border-box;
 }
 
-.hero-video-section {
-    max-width: 960px; /* Ancho ajustado */
-    margin: 0 auto 40px auto;
-    border-radius: 10px;
-    overflow: hidden; /* Para que el borde redondeado afecte al iframe */
-    border: 1px solid var(--medium-grey);
+/* --- Animaciones de Entrada --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-#twitch-embed {
-    width: 100%;
-    height: 540px; /* Un poco más de altura para formato 16:9 */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
+/* --- Layout Principal --- */
+.main-container {
     max-width: 1400px;
     margin: 0 auto;
 }
 
+.hero-video-section {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.1);
+    animation: slideUp 0.8s ease-out;
+    background: var(--dark-bg);
+}
+
+#twitch-embed {
+    width: 100%;
+    height: 600px; /* Vídeo más grande y protagonista */
+    border-radius: 9px;
+}
+
+.main-content-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); /* Grid de 12 columnas */
+    gap: 20px;
+}
+
+/* --- Tarjetas del Grid --- */
 .grid-card {
-    background-color: var(--dark-card);
+    background: var(--card-bg);
     border: 1px solid var(--medium-grey);
     border-radius: 10px;
     padding: 25px;
-    display: flex;
-    flex-direction: column;
+    animation: slideUp 0.8s ease-out forwards;
+    opacity: 0;
 }
+
+/* Posicionamiento en el grid */
+.card-stats { grid-column: span 12; animation-delay: 0.2s; }
+.card-info { grid-column: span 8; animation-delay: 0.3s; }
+.card-team { grid-column: span 4; animation-delay: 0.4s; }
+
 
 .card-title {
     font-size: 1.2em;
-    color: white;
-    margin-top: 0;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--medium-grey);
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0 0 20px 0;
     padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.info-row {
+/* --- Estilos de Componentes Específicos --- */
+
+/* Estadísticas (ahora horizontales) */
+.stats-container {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-.label {
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2em;
+    color: var(--green-glow);
     font-weight: bold;
 }
 
-.value {
-    color: var(--light-grey);
-    text-align: right;
+.stat-label {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    margin-top: 5px;
 }
 
+.stat-icon {
+    margin-right: 5px;
+}
+
+/* Información General */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #2a2a2a;
+}
+.info-row:last-child {
+    border-bottom: none;
+}
+.label {
+    color: var(--text-secondary);
+}
+.value {
+    font-weight: bold;
+}
 .rank-info {
-    font-size: 0.9em;
+    font-size: 1em;
     color: var(--rank-gold);
 }
 
+/* Compañeros de equipo */
 .team-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
 .team-list li {
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 8px;
-    background-color: var(--medium-grey);
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.card-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.stat {
-    background-color: var(--medium-grey);
-    padding: 15px;
+    padding: 10px;
     border-radius: 5px;
-    text-align: center;
+    margin-bottom: 8px;
+    background-color: var(--dark-bg);
+    transition: transform 0.2s ease-out;
 }
-
-.stat-value {
-    display: block;
-    font-size: 2em;
-    font-weight: bold;
-    color: var(--matrix-green);
-}
-
-.stat-label {
-    font-size: 0.9em;
-    margin-top: 5px;
-}
-
-.stat-icon {
-    margin-right: 8px;
-    font-size: 1.1em;
+.team-list li:hover {
+    transform: translateX(5px);
+    background-color: var(--medium-grey);
 }
