@@ -21,15 +21,47 @@ body {
     box-sizing: border-box;
 }
 
-.card {
+/* Contenedor principal del layout */
+.layout-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que se apilen en pantallas pequeñas */
+    gap: 20px; /* Espacio entre las columnas */
+    width: 100%;
+    max-width: 1200px; /* Ancho máximo del layout */
+    align-items: flex-start; /* Alinea las columnas arriba */
+}
+
+/* Estilos para las dos columnas */
+.data-column, .video-column {
     background-color: var(--dark-grey);
     border: 1px solid var(--medium-grey);
     border-radius: 10px;
     padding: 25px;
-    width: 100%;
-    max-width: 500px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
+
+/* La columna de datos ocupará un espacio flexible */
+.data-column {
+    flex: 2; /* Ocupará el doble de espacio que la de video */
+    min-width: 400px;
+}
+
+/* La columna de video se ajustará al contenido */
+.video-column {
+    flex: 3; /* Ocupará más espacio */
+    min-width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#twitch-embed {
+    width: 100%;
+    height: 450px; /* Ajustamos la altura para el nuevo layout */
+}
+
+
+/* --- Estilos internos (la mayoría son los mismos de antes) --- */
 
 .card-header h1 {
     font-size: 1.5em;
@@ -104,9 +136,4 @@ body {
 .stat-label {
     font-size: 0.9em;
     color: var(--light-grey);
-}
-
-.card-footer {
-    margin-top: 25px;
-    min-height: 200px;
 }
