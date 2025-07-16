@@ -1,16 +1,91 @@
+/* Importar una fuente de Google Fonts para un look más "gamer" */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+:root {
+    --matrix-green: #39FF14;
+    --dark-grey: #1a1a1a;
+    --medium-grey: #2a2a2a;
+    --light-grey: #cccccc;
+}
+
 body {
-    background-color: #000000; /* Fondo negro */
-    color: #39FF14;           /* Color verde matrix */
-    font-family: 'Courier New', Courier, monospace; /* Fuente tipo terminal */
+    background-color: #111;
+    font-family: 'Roboto Mono', monospace;
+    color: var(--light-grey);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card {
+    background-color: var(--dark-grey);
+    border: 1px solid var(--medium-grey);
+    border-radius: 10px;
+    padding: 25px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-header h1 {
+    font-size: 1.5em;
+    margin: 0 0 20px 0;
+    text-align: center;
+    color: white;
+}
+
+.card-header #playerName {
+    color: var(--matrix-green);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 1em;
+}
+
+.label {
+    font-weight: bold;
+    color: white;
+}
+
+.value {
+    color: var(--light-grey);
+}
+
+.separator {
+    border: none;
+    height: 1px;
+    background-color: var(--medium-grey);
+    margin: 20px 0;
+}
+
+.card-stats {
+    display: flex;
+    justify-content: space-around;
     text-align: center;
 }
 
-.matrix-text {
-    font-size: 5vw; /* Tamaño de fuente que se ajusta al ancho de la pantalla */
-    text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14; /* Efecto de brillo */
+.stat-value {
+    display: block;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--matrix-green);
+}
+
+.stat-label {
+    font-size: 0.9em;
+    color: var(--light-grey);
+}
+
+.card-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.9em;
+    color: var(--light-grey);
 }
