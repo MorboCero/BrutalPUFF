@@ -13,6 +13,7 @@
         <main class="data-column">
             <header class="card-header">
                 <h1>RESUMEN DE PARTIDA PARA <span id="playerName"></span></h1>
+                <div class="rank-info" id="playerRank"></div>
             </header>
 
             <section class="card-body">
@@ -36,43 +37,56 @@
                     <span class="label">Asesinado por:</span>
                     <span class="value" id="asesinadoPor"></span>
                 </div>
+                <div class="info-row killer-rank-row">
+                    <span class="label"></span>
+                    <span class="value rank-info" id="killerRank"></span>
+                </div>
             </section>
 
             <hr class="separator">
 
             <section class="team-section">
                 <h2 class="section-title">COMPAÑEROS DE EQUIPO</h2>
-                <ul id="equipo" class="team-list">
-                    </ul>
+                <ul id="equipo" class="team-list"></ul>
             </section>
-
+            
             <hr class="separator">
 
-            <section class="card-stats">
-                <div class="stat">
-                    <span class="stat-value" id="posicion"></span>
-                    <span class="stat-label">Posición</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" id="kills"></span>
-                    <span class="stat-label">Kills</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" id="asistencias"></span>
-                    <span class="stat-label">Asistencias</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" id="dano"></span>
-                    <span class="stat-label">Daño</span>
-                </div>
+            <section class="clips-section">
+                <h2 class="section-title">🚨 CLIPS DE TUS ENCUENTROS</h2>
+                <ul id="clips-list" class="clips-list"></ul>
             </section>
         </main>
 
-        <aside class="video-column">
-            <div id="twitch-embed"></div>
+        <aside class="right-column">
+            <div class="stats-card">
+                <section class="card-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="posicion"></span>
+                        <span class="stat-label">Posición</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="kills"></span>
+                        <span class="stat-label">Kills</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="asistencias"></span>
+                        <span class="stat-label">Asistencias</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="dano"></span>
+                        <span class="stat-label">Daño</span>
+                    </div>
+                </section>
+            </div>
+            <div class="video-card">
+                <div id="twitch-embed"></div>
+            </div>
         </aside>
 
-    </div> <script src="https://embed.twitch.tv/embed/v1.js"></script>
+    </div>
+
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
