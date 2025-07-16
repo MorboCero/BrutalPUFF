@@ -157,3 +157,9 @@ body {
     transform: translateX(5px);
     background-color: var(--medium-grey);
 }
+
+/* Posicionamiento en el grid */
+.card-stats { grid-column: span 12; animation-delay: 0.2s; }
+.card-info { grid-column: span 7; animation-delay: 0.3s; } /* Ajustamos el espacio */
+.card-team { grid-column: span 5; animation-delay: 0.4s; } /* Ajustamos el espacio */
+.card-kills { grid-column: span 12; animation-delay: 0.5s; } /* La nueva tarjeta ocupa todo el ancho */
