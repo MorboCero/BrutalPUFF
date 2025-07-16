@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Rellenar estadísticas
         document.getElementById('posicion').textContent = datosDePartida.posicion;
         document.getElementById('kills').textContent = datosDePartida.kills;
-        document.getElementById('asistencias').textContent = datosDePartida.asistencias;
+        // document.getElementById('asistencias').textContent = datosDePartida.asistencias;
         document.getElementById('dano').textContent = Math.round(datosDePartida.dano);
         
         // Rellenar información del streamer
