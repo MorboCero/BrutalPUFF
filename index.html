@@ -1,82 +1,76 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumen de Partida</title>
+    <title>Match Summary</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <section class="hero-video-section">
-        <h1 id="hero-title">¡Encuentro con Streamer!</h1>
         <div id="twitch-embed"></div>
     </section>
 
     <div class="stats-grid">
 
         <div class="grid-card">
-            <h2 class="card-title">Estadísticas de la Partida</h2>
+            <h2 class="card-title">Match Statistics</h2>
             <div class="card-stats">
                 <div class="stat">
-                    <div class="stat-value" id="posicion"></div>
-                    <div class="stat-label"><span class="stat-icon">🏆</span>Posición</div>
+                    <div class="stat-value" id="position"></div>
+                    <div class="stat-label"><span class="stat-icon">🏆</span>Position</div>
                 </div>
                 <div class="stat">
                     <div class="stat-value" id="kills"></div>
                     <div class="stat-label"><span class="stat-icon">💀</span>Kills</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value" id="asistencias"></div>
-                    <div class="stat-label"><span class="stat-icon">🤝</span>Asistencias</div>
+                    <div class="stat-value" id="assists"></div>
+                    <div class="stat-label"><span class="stat-icon">🤝</span>Assists</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value" id="dano"></div>
-                    <div class="stat-label"><span class="stat-icon">💥</span>Daño</div>
+                    <div class="stat-value" id="damage"></div>
+                    <div class="stat-label"><span class="stat-icon">💥</span>Damage</div>
                 </div>
             </div>
         </div>
 
         <div class="grid-card">
-            <h2 class="card-title">Información General</h2>
+            <h2 class="card-title">General Information</h2>
             <div class="info-row">
-                <span class="label">Jugador:</span>
+                <span class="label">Player:</span>
                 <span class="value" id="playerName"></span>
             </div>
             <div class="info-row">
-                <span class="label">Rango:</span>
+                <span class="label">Rank:</span>
                 <span class="value rank-info" id="playerRank"></span>
             </div>
             <div class="info-row">
-                <span class="label">Fecha:</span>
-                <span class="value" id="fecha"></span>
+                <span class="label">Date:</span>
+                <span class="value" id="date"></span>
             </div>
              <div class="info-row">
-                <span class="label">Tipo:</span>
-                <span class="value" id="tipo"></span>
+                <span class="label">Type:</span>
+                <span class="value" id="type"></span>
             </div>
             <div class="info-row">
-                <span class="label">Mapa:</span>
-                <span class="value" id="mapa"></span>
+                <span class="label">Map:</span>
+                <span class="value" id="map"></span>
             </div>
             <div class="info-row">
-                <span class="label">Asesinado por:</span>
-                <span class="value" id="asesinadoPor"></span>
+                <span class="label">Killed by:</span>
+                <span class="value" id="killedBy"></span>
             </div>
             <div class="info-row">
-                <span class="label">Rango del Asesino:</span>
+                <span class="label">Killer's Rank:</span>
                 <span class="value rank-info" id="killerRank"></span>
             </div>
         </div>
 
         <div class="grid-card">
-            <h2 class="card-title">Compañeros de Equipo</h2>
-            <ul id="equipo" class="team-list"></ul>
-        </div>
-
-        <div class="grid-card">
-            <h2 class="card-title">Clips de la Partida</h2>
-            <ul id="clips-list" class="clips-list"></ul>
+            <h2 class="card-title">Teammates</h2>
+            <ul id="team-list" class="team-list"></ul>
         </div>
 
     </div>
