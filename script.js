@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fecha: "16/07/2025 a las 06:35",
         tipo: "Competitiva",
         mapa: "Taego",
-        modo: "Squad FPP",
         asesinadoPor: "Shapp2k",
         killerRank: { rankName: "Master 1", rankPoints: 3679 },
         companeros: [
@@ -25,72 +24,62 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     // --- FIN DE LOS DATOS DE EJEMPLO ---
 
-    function rellenarDatos() {
-        // Info del jugador
-        document.getElementById('playerName').textContent = datosDePartida.playerName;
-        document.getElementById('playerRank').textContent = `${datosDePartida.playerRank.rankName} (${datosDePartida.playerRank.rankPoints} Puntos)`;
+    // Rellenar la información principal en las tarjetas
+    document.getElementById('playerName').textContent = datosDePartida.playerName;
+    document.getElementById('playerRank').textContent = `${datosDePartida.playerRank.rankName} (${datosDePartida.playerRank.rankPoints} Puntos)`;
+    document.getElementById('fecha').textContent = datosDePartida.fecha;
+    document.getElementById('tipo').textContent = datosDePartida.tipo;
+    document.getElementById('mapa').textContent = datosDePartida.mapa;
+    document.getElementById('asesinadoPor').textContent = datosDePartida.asesinadoPor;
+    document.getElementById('killerRank').textContent = `${datosDePartida.killerRank.rankName} (${datosDePartida.killerRank.rankPoints} Puntos)`;
+    
+    // Rellenar estadísticas principales
+    document.getElementById('posicion').textContent = datosDePartida.posicion;
+    document.getElementById('kills').textContent = datosDePartida.kills;
+    document.getElementById('asistencias').textContent = datosDePartida.asistencias;
+    document.getElementById('dano').textContent = Math.round(datosDePartida.dano);
 
-        // Info de la partida
-        document.getElementById('fecha').textContent = datosDePartida.fecha;
-        document.getElementById('tipo').textContent = datosDePartida.tipo;
-        document.getElementById('mapa').textContent = datosDePartida.mapa;
-        document.getElementById('modo').textContent = datosDePartida.modo;
+    // Rellenar lista de compañeros
+    const equipoLista = document.getElementById('equipo');
+    equipoLista.innerHTML = '';
+    datosDePartida.companeros.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `${p.name} <span class="rank-info">(${p.rankName} - ${p.rankPoints} Puntos)</span>`;
+        equipoLista.appendChild(li);
+    });
 
-        // Info del asesino
-        document.getElementById('asesinadoPor').textContent = datosDePartida.asesinadoPor;
-        document.getElementById('killerRank').textContent = `${datosDePartida.killerRank.rankName} (${datosDePartida.killerRank.rankPoints} Puntos)`;
-
-        // Estadísticas
-        document.getElementById('posicion').textContent = datosDePartida.posicion;
-        document.getElementById('kills').textContent = datosDePartida.kills;
-        document.getElementById('asistencias').textContent = datosDePartida.asistencias;
-        document.getElementById('dano').textContent = Math.round(datosDePartida.dano);
-    }
-
-    function crearListaCompaneros() {
-        const equipoLista = document.getElementById('equipo');
-        equipoLista.innerHTML = '';
-        datosDePartida.companeros.forEach(p => {
-            const li = document.createElement('li');
-            li.innerHTML = `${p.name} <span class="rank-info">(${p.rankName} - ${p.rankPoints} Puntos)</span>`;
-            equipoLista.appendChild(li);
-        });
-    }
-
-    function crearListaDeClips() {
-        const clipsLista = document.getElementById('clips-list');
-        clipsLista.innerHTML = '';
+    // Rellenar lista de clips
+    const clipsLista = document.getElementById('clips-list');
+    clipsLista.innerHTML = '';
+    if (datosDePartida.clips.length > 0) {
         datosDePartida.clips.forEach(clip => {
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = clip.clipURL;
             a.textContent = `Ver clip del encuentro con ${clip.streamerName}`;
-            a.target = "_blank"; // Abre en una nueva pestaña
+            a.target = "_blank";
             a.rel = "noopener noreferrer";
             li.appendChild(a);
             clipsLista.appendChild(li);
         });
+    } else {
+        clipsLista.innerHTML = '<li>No hay clips disponibles para esta partida.</li>';
     }
 
-    function crearReproductorTwitch() {
-        // Usamos el nombre del streamer del primer clip para el reproductor
-        const streamerChannel = datosDePartida.clips.length > 0 ? datosDePartida.clips[0].streamerName : null;
-        
-        if (streamerChannel) {
-            new Twitch.Embed("twitch-embed", {
-                width: "100%",
-                height: "100%",
-                channel: streamerChannel,
-                layout: "video",
-                parent: ["brutal-puff.vercel.app"]
-            });
-        }
+    // Crear el reproductor de Twitch si hay clips
+    const heroVideoSection = document.querySelector('.hero-video-section');
+    const streamerChannel = datosDePartida.clips.length > 0 ? datosDePartida.clips[0].streamerName : null;
+
+    if (streamerChannel) {
+        new Twitch.Embed("twitch-embed", {
+            width: "100%",
+            height: "100%",
+            channel: streamerChannel,
+            layout: "video",
+            parent: ["brutal-puff.vercel.app"]
+        });
+    } else {
+        // Si no hay vídeo, ocultamos la sección principal de vídeo
+        heroVideoSection.style.display = 'none';
     }
-
-    // Ejecutar todas las funciones
-    rellenarDatos();
-    crearListaCompaneros();
-    crearListaDeClips();
-    crearReproductorTwitch();
-
 });
