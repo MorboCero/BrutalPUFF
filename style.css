@@ -1,0 +1,16 @@
+body {
+    background-color: #000000; /* Fondo negro */
+    color: #39FF14;           /* Color verde matrix */
+    font-family: 'Courier New', Courier, monospace; /* Fuente tipo terminal */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.matrix-text {
+    font-size: 5vw; /* Tamaño de fuente que se ajusta al ancho de la pantalla */
+    text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14; /* Efecto de brillo */
+}
