@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(matchData => {
             // Una vez que tenemos los datos reales, llamamos a las funciones para rellenar la página
             fillPageData(matchData);
+            createKillsList(matchData); // <--- AÑADIDO: Llamada a la nueva función
         })
         .catch(error => {
             console.error('Failed to fetch match data:', error);
@@ -28,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-// Todas las funciones que rellenan la web ahora reciben los datos como un parámetro
 function fillPageData(matchData) {
     // Info del jugador
     document.getElementById('playerName').textContent = matchData.player_name;
@@ -53,7 +53,8 @@ function fillPageData(matchData) {
     if (matchData.teammates && matchData.teammates.length > 0) {
         matchData.teammates.forEach(p => {
             const li = document.createElement('li');
-            li.innerHTML = `<div>${p.name}</div><div class="rank-info">${p.rankName} (${p.rankPoints} Points)</div>`;
+            const rankText = (p.rankName !== 'Unranked') ? `(${p.rankName} - ${p.rankPoints} Points)` : '';
+            li.innerHTML = `<div>${p.name}</div><div class="rank-info">${rankText}</div>`;
             teamList.appendChild(li);
         });
     } else {
@@ -74,5 +75,31 @@ function fillPageData(matchData) {
         });
     } else {
         heroVideoSection.style.display = 'none';
+    }
+}
+
+// ### NUEVA FUNCIÓN AÑADIDA ###
+function createKillsList(matchData) {
+    const killList = document.getElementById('kill-list');
+    
+    // Oculta la tarjeta de kills por defecto
+    const card = killList.closest('.grid-card');
+    if (card) {
+        card.style.display = 'none';
+    }
+
+    if (matchData.kills_list && matchData.kills_list.length > 0) {
+        // Si hay kills, muestra la tarjeta
+        if (card) {
+            card.style.display = 'block';
+        }
+
+        killList.innerHTML = ''; // Limpiamos la lista
+        matchData.kills_list.forEach(kill => {
+            const li = document.createElement('li');
+            const rankText = (kill.rankName !== 'Unranked') ? `(${kill.rankName} - ${kill.rankPoints} Points)` : '(Unranked)';
+            li.innerHTML = `<div>💀 ${kill.name}</div><div class="rank-info">${rankText}</div>`;
+            killList.appendChild(li);
+        });
     }
 }
