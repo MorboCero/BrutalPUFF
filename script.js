@@ -1,61 +1,73 @@
+// Espera a que la página se cargue
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- DATOS DE EJEMPLO (MOCK DATA) ---
-    const matchData = {
-        playerName: "KantQvQ",
-        playerRank: { rankName: "Bronze 2", rankPoints: 1298 },
-        date: "16/07/2025 at 06:35",
-        type: "Ranked",
-        map: "Taego",
-        killedBy: "Shapp2k",
-        killerRank: { rankName: "Master 1", rankPoints: 3679 },
-        teammates: [
-            { name: "SoulJokers", rankName: "Bronze 2", rankPoints: 1264 },
-            { name: "PabloExequielC", rankName: "Bronze 4", rankPoints: 880 },
-            { name: "BricioB2-RJ", rankName: "Crystal 4", rankPoints: 2687 }
-        ],
-        position: 12,
-        kills: 3,
-        assists: 1,
-        damage: 326.85,
-        // ESTRUCTURA CORREGIDA: Usamos videoId y timestamp
-        encounters: [
-            { streamerName: "maxzeraa_", videoId: "2513562881", timestamp: "4h47m55s" }
-        ]
-    };
-    // --- FIN DE LOS DATOS DE EJEMPLO ---
+    // Extrae la ID de la partida desde la URL de la página
+    const pathParts = window.location.pathname.split('/');
+    const matchId = pathParts[pathParts.length - 1];
 
-    // --- Rellenar datos en la página ---
-    document.getElementById('playerName').textContent = matchData.playerName;
-    document.getElementById('playerRank').textContent = `${matchData.playerRank.rankName} (${matchData.playerRank.rankPoints} Points)`;
-    document.getElementById('date').textContent = matchData.date;
-    document.getElementById('type').textContent = matchData.type;
-    document.getElementById('map').textContent = matchData.map;
-    document.getElementById('killedBy').textContent = matchData.killedBy;
-    document.getElementById('killerRank').textContent = `${matchData.killerRank.rankName} (${matchData.killerRank.rankPoints} Points)`;
+    if (!matchId) {
+        document.body.innerHTML = '<h1>Error: Match ID not found in URL</h1>';
+        return;
+    }
+
+    // Llama a nuestra propia API para obtener los datos de la partida
+    fetch(`/api/getMatch?id=${matchId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Match not found or API error (status: ${response.status})`);
+            }
+            return response.json();
+        })
+        .then(matchData => {
+            // Una vez que tenemos los datos reales, llamamos a las funciones para rellenar la página
+            fillPageData(matchData);
+        })
+        .catch(error => {
+            console.error('Failed to fetch match data:', error);
+            document.body.innerHTML = `<h1>Error loading match data: ${error.message}</h1>`;
+        });
+});
+
+// Todas las funciones que rellenan la web ahora reciben los datos como un parámetro
+function fillPageData(matchData) {
+    // Info del jugador
+    document.getElementById('playerName').textContent = matchData.player_name;
+    document.getElementById('playerRank').textContent = `${matchData.player_rank_name} (${matchData.player_rank_points} Points)`;
+
+    // Info de la partida
+    document.getElementById('date').textContent = matchData.match_date;
+    document.getElementById('type').textContent = matchData.match_type;
+    document.getElementById('map').textContent = matchData.match_map;
+    document.getElementById('killedBy').textContent = matchData.killed_by;
+    document.getElementById('killerRank').textContent = `${matchData.killer_rank_name} (${matchData.killer_rank_points} Points)`;
+    
+    // Estadísticas
     document.getElementById('position').textContent = matchData.position;
     document.getElementById('kills').textContent = matchData.kills;
     document.getElementById('assists').textContent = matchData.assists;
     document.getElementById('damage').textContent = Math.round(matchData.damage);
 
-    // Rellenar lista de compañeros
+    // Lista de compañeros
     const teamList = document.getElementById('team-list');
     teamList.innerHTML = '';
-    matchData.teammates.forEach(p => {
-        const li = document.createElement('li');
-        li.innerHTML = `${p.name} <span class="rank-info">(${p.rankName} - ${p.rankPoints} Points)</span>`;
-        teamList.appendChild(li);
-    });
+    if (matchData.teammates && matchData.teammates.length > 0) {
+        matchData.teammates.forEach(p => {
+            const li = document.createElement('li');
+            li.innerHTML = `<div>${p.name}</div><div class="rank-info">${p.rankName} (${p.rankPoints} Points)</div>`;
+            teamList.appendChild(li);
+        });
+    } else {
+        teamList.innerHTML = '<li>No teammates in this match.</li>';
+    }
 
-    // Crear reproductor de Twitch
+    // Reproductor de Twitch
     const heroVideoSection = document.querySelector('.hero-video-section');
-    const encounter = matchData.encounters.length > 0 ? matchData.encounters[0] : null;
+    const encounter = matchData.encounters && matchData.encounters.length > 0 ? matchData.encounters[0] : null;
 
     if (encounter && encounter.videoId) {
         new Twitch.Embed("twitch-embed", {
             width: "100%",
             height: "100%",
-            // LÓGICA CORREGIDA: Usamos 'video' y 'time'
             video: encounter.videoId,
             time: encounter.timestamp,
             parent: ["brutal-puff.vercel.app"]
@@ -63,4 +75,4 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         heroVideoSection.style.display = 'none';
     }
-});
+}
