@@ -89,3 +89,26 @@ body {
     font-size: 0.9em;
     color: var(--light-grey);
 }
+
+.section-title {
+    text-align: center;
+    font-size: 1em;
+    color: white;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.team-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.team-list li {
+    background-color: var(--medium-grey);
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    color: var(--light-grey);
+}
