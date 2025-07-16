@@ -13,34 +13,24 @@ document.addEventListener('DOMContentLoaded', () => {
         kills: 1,
         asistencias: 0,
         dano: 149.85,
-        streamerInfo: "📢 ¡Streamers ACTIVOS en esta partida! • vsnz (https://www.twitch.tv/vsnz)"
+        twitchChannel: "vsnz"
     };
     // --- FIN DE LOS DATOS DE EJEMPLO ---
 
-
-    // Función para rellenar los datos en la página
     function rellenarDatos() {
-        // Rellenar datos de texto
         document.getElementById('playerName').textContent = datosDePartida.playerName;
         document.getElementById('fecha').textContent = datosDePartida.fecha;
         document.getElementById('tipo').textContent = datosDePartida.tipo;
         document.getElementById('mapa').textContent = datosDePartida.mapa;
         document.getElementById('modo').textContent = datosDePartida.modo;
         document.getElementById('asesinadoPor').textContent = datosDePartida.asesinadoPor;
-        
-        // Rellenar estadísticas
         document.getElementById('posicion').textContent = datosDePartida.posicion;
         document.getElementById('kills').textContent = datosDePartida.kills;
         document.getElementById('asistencias').textContent = datosDePartida.asistencias;
         document.getElementById('dano').textContent = Math.round(datosDePartida.dano);
-        
-        // Rellenar información del streamer
-        document.getElementById('streamerInfo').textContent = datosDePartida.streamerInfo;
 
-        // Rellenar la lista de compañeros de equipo
         const equipoLista = document.getElementById('equipo');
-        equipoLista.innerHTML = ''; // Limpiamos la lista por si acaso
-        
+        equipoLista.innerHTML = '';
         if (datosDePartida.companeros.length > 0) {
             datosDePartida.companeros.forEach(companero => {
                 const li = document.createElement('li');
@@ -54,7 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Llamamos a la función para que se ejecute
+    function crearReproductorTwitch() {
+        if (datosDePartida.twitchChannel) {
+            new Twitch.Embed("twitch-embed", {
+                width: "100%",
+                height: 300,
+                channel: datosDePartida.twitchChannel,
+                layout: "video",
+                parent: ["brutal-puff.vercel.app"]
+            });
+        }
+    }
+
     rellenarDatos();
+    crearReproductorTwitch();
 
 });
