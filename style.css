@@ -7,64 +7,48 @@
     --medium-grey: #2a2a2a;
     --light-grey: #cccccc;
     --rank-gold: #ffc107;
-    --twitch-purple: #9146ff;
 }
 
 body {
     background-color: var(--dark-bg);
-    /* --- Patrón de cruces sutil --- */
     background-image: 
         linear-gradient(var(--medium-grey) 1px, transparent 1px),
         linear-gradient(to right, var(--medium-grey) 1px, transparent 1px);
     background-size: 20px 20px;
-    /* ------------------------------ */
     font-family: 'Roboto Mono', monospace;
     color: var(--light-grey);
     padding: 20px;
     box-sizing: border-box;
 }
 
-/* --- SECCIÓN PRINCIPAL DEL VÍDEO --- */
 .hero-video-section {
-    max-width: 900px;
+    max-width: 960px; /* Ancho ajustado */
     margin: 0 auto 40px auto;
-    background-color: var(--dark-card);
-    border: 1px solid var(--medium-grey);
     border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-}
-
-.hero-video-section h1 {
-    font-size: 2em;
-    color: var(--matrix-green);
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    text-shadow: 0 0 10px var(--matrix-green);
+    overflow: hidden; /* Para que el borde redondeado afecte al iframe */
+    border: 1px solid var(--medium-grey);
 }
 
 #twitch-embed {
     width: 100%;
-    height: 500px; /* Hacemos el vídeo más grande */
-    border-radius: 5px;
+    height: 540px; /* Un poco más de altura para formato 16:9 */
 }
 
-/* --- GRID PARA LAS TARJETAS DE DATOS --- */
 .stats-grid {
     display: grid;
-    /* Crea columnas que se adaptan al espacio, mínimo 350px de ancho */
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 20px;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-/* Estilo común para todas las tarjetas del grid */
 .grid-card {
     background-color: var(--dark-card);
     border: 1px solid var(--medium-grey);
     border-radius: 10px;
     padding: 25px;
+    display: flex;
+    flex-direction: column;
 }
 
 .card-title {
@@ -76,7 +60,6 @@ body {
     padding-bottom: 10px;
 }
 
-/* Estilos de contenido dentro de las tarjetas */
 .info-row {
     display: flex;
     justify-content: space-between;
@@ -89,6 +72,7 @@ body {
 
 .value {
     color: var(--light-grey);
+    text-align: right;
 }
 
 .rank-info {
@@ -99,6 +83,7 @@ body {
 .team-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .team-list li {
@@ -106,12 +91,15 @@ body {
     border-radius: 5px;
     margin-bottom: 8px;
     background-color: var(--medium-grey);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .card-stats {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Dos columnas para las estadísticas */
-    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
 
 .stat {
@@ -136,20 +124,4 @@ body {
 .stat-icon {
     margin-right: 8px;
     font-size: 1.1em;
-}
-
-.clips-list a {
-    display: block;
-    background-color: var(--twitch-purple);
-    color: white;
-    padding: 12px;
-    border-radius: 5px;
-    text-decoration: none;
-    text-align: center;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.clips-list a:hover {
-    background-color: #772ce8;
 }
