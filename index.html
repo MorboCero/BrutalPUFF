@@ -8,81 +8,76 @@
 </head>
 <body>
 
-    <div class="layout-container">
+    <section class="hero-video-section">
+        <h1 id="hero-title">¡Encuentro con Streamer!</h1>
+        <div id="twitch-embed"></div>
+    </section>
 
-        <main class="data-column">
-            <header class="card-header">
-                <h1>RESUMEN DE PARTIDA PARA <span id="playerName"></span></h1>
-                <div class="rank-info" id="playerRank"></div>
-            </header>
+    <div class="stats-grid">
 
-            <section class="card-body">
-                <div class="info-row">
-                    <span class="label">Fecha:</span>
-                    <span class="value" id="fecha"></span>
+        <div class="grid-card">
+            <h2 class="card-title">Estadísticas de la Partida</h2>
+            <div class="card-stats">
+                <div class="stat">
+                    <div class="stat-value" id="posicion"></div>
+                    <div class="stat-label"><span class="stat-icon">🏆</span>Posición</div>
                 </div>
-                <div class="info-row">
-                    <span class="label">Tipo:</span>
-                    <span class="value" id="tipo"></span>
+                <div class="stat">
+                    <div class="stat-value" id="kills"></div>
+                    <div class="stat-label"><span class="stat-icon">💀</span>Kills</div>
                 </div>
-                <div class="info-row">
-                    <span class="label">Mapa:</span>
-                    <span class="value" id="mapa"></span>
+                <div class="stat">
+                    <div class="stat-value" id="asistencias"></div>
+                    <div class="stat-label"><span class="stat-icon">🤝</span>Asistencias</div>
                 </div>
-                <div class="info-row">
-                    <span class="label">Modo:</span>
-                    <span class="value" id="modo"></span>
+                <div class="stat">
+                    <div class="stat-value" id="dano"></div>
+                    <div class="stat-label"><span class="stat-icon">💥</span>Daño</div>
                 </div>
-                <div class="info-row">
-                    <span class="label">Asesinado por:</span>
-                    <span class="value" id="asesinadoPor"></span>
-                </div>
-                <div class="info-row killer-rank-row">
-                    <span class="label"></span>
-                    <span class="value rank-info" id="killerRank"></span>
-                </div>
-            </section>
-
-            <hr class="separator">
-
-            <section class="team-section">
-                <h2 class="section-title">COMPAÑEROS DE EQUIPO</h2>
-                <ul id="equipo" class="team-list"></ul>
-            </section>
-            
-            <hr class="separator">
-
-            <section class="clips-section">
-                <h2 class="section-title">🚨 CLIPS DE TUS ENCUENTROS</h2>
-                <ul id="clips-list" class="clips-list"></ul>
-            </section>
-        </main>
-
-        <aside class="right-column">
-            <div class="stats-card">
-                <section class="card-stats">
-                    <div class="stat">
-                        <span class="stat-value" id="posicion"></span>
-                        <span class="stat-label">Posición</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" id="kills"></span>
-                        <span class="stat-label">Kills</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" id="asistencias"></span>
-                        <span class="stat-label">Asistencias</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" id="dano"></span>
-                        <span class="stat-label">Daño</span>
-                    </div>
-                </section>
             </div>
-            <div class="video-card">
-                <div id="twitch-embed"></div>
+        </div>
+
+        <div class="grid-card">
+            <h2 class="card-title">Información General</h2>
+            <div class="info-row">
+                <span class="label">Jugador:</span>
+                <span class="value" id="playerName"></span>
             </div>
-        </aside>
+            <div class="info-row">
+                <span class="label">Rango:</span>
+                <span class="value rank-info" id="playerRank"></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Fecha:</span>
+                <span class="value" id="fecha"></span>
+            </div>
+             <div class="info-row">
+                <span class="label">Tipo:</span>
+                <span class="value" id="tipo"></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Mapa:</span>
+                <span class="value" id="mapa"></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Asesinado por:</span>
+                <span class="value" id="asesinadoPor"></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Rango del Asesino:</span>
+                <span class="value rank-info" id="killerRank"></span>
+            </div>
+        </div>
+
+        <div class="grid-card">
+            <h2 class="card-title">Compañeros de Equipo</h2>
+            <ul id="equipo" class="team-list"></ul>
+        </div>
+
+        <div class="grid-card">
+            <h2 class="card-title">Clips de la Partida</h2>
+            <ul id="clips-list" class="clips-list"></ul>
+        </div>
 
     </div>
 
