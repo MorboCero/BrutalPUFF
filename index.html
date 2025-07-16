@@ -8,70 +8,71 @@
 </head>
 <body>
 
-    <main class="card">
-        <header class="card-header">
-            <h1>RESUMEN DE PARTIDA PARA <span id="playerName"></span></h1>
-        </header>
+    <div class="layout-container">
 
-        <section class="card-body">
-            <div class="info-row">
-                <span class="label">Fecha:</span>
-                <span class="value" id="fecha"></span>
-            </div>
-            <div class="info-row">
-                <span class="label">Tipo:</span>
-                <span class="value" id="tipo"></span>
-            </div>
-            <div class="info-row">
-                <span class="label">Mapa:</span>
-                <span class="value" id="mapa"></span>
-            </div>
-            <div class="info-row">
-                <span class="label">Modo:</span>
-                <span class="value" id="modo"></span>
-            </div>
-            <div class="info-row">
-                <span class="label">Asesinado por:</span>
-                <span class="value" id="asesinadoPor"></span>
-            </div>
-        </section>
+        <main class="data-column">
+            <header class="card-header">
+                <h1>RESUMEN DE PARTIDA PARA <span id="playerName"></span></h1>
+            </header>
 
-        <hr class="separator">
+            <section class="card-body">
+                <div class="info-row">
+                    <span class="label">Fecha:</span>
+                    <span class="value" id="fecha"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Tipo:</span>
+                    <span class="value" id="tipo"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Mapa:</span>
+                    <span class="value" id="mapa"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Modo:</span>
+                    <span class="value" id="modo"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Asesinado por:</span>
+                    <span class="value" id="asesinadoPor"></span>
+                </div>
+            </section>
 
-        <section class="team-section">
-            <h2 class="section-title">COMPAÑEROS DE EQUIPO</h2>
-            <ul id="equipo" class="team-list">
-                </ul>
-        </section>
+            <hr class="separator">
 
-        <hr class="separator">
+            <section class="team-section">
+                <h2 class="section-title">COMPAÑEROS DE EQUIPO</h2>
+                <ul id="equipo" class="team-list">
+                    </ul>
+            </section>
 
-        <section class="card-stats">
-            <div class="stat">
-                <span class="stat-value" id="posicion"></span>
-                <span class="stat-label">Posición</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value" id="kills"></span>
-                <span class="stat-label">Kills</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value" id="asistencias"></span>
-                <span class="stat-label">Asistencias</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value" id="dano"></span>
-                <span class="stat-label">Daño</span>
-            </div>
-        </section>
+            <hr class="separator">
 
-        <footer class="card-footer">
+            <section class="card-stats">
+                <div class="stat">
+                    <span class="stat-value" id="posicion"></span>
+                    <span class="stat-label">Posición</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="kills"></span>
+                    <span class="stat-label">Kills</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="asistencias"></span>
+                    <span class="stat-label">Asistencias</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="dano"></span>
+                    <span class="stat-label">Daño</span>
+                </div>
+            </section>
+        </main>
+
+        <aside class="video-column">
             <div id="twitch-embed"></div>
-        </footer>
-    </main>
+        </aside>
 
-    <script src="https://embed.twitch.tv/embed/v1.js"></script>
-    
+    </div> <script src="https://embed.twitch.tv/embed/v1.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
