@@ -13,20 +13,12 @@
 
 body {
     background-color: var(--dark-bg);
-    /* --- Patrón de Dagas (†) con SVG --- */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cpath d='M14 5v11h-3v2h3v7h2v-7h3v-2h-3V5h-2z' fill='%231a1b20' fill-opacity='0.4'/%3E%3C/svg%3E");
     background-size: 30px 30px;
-    /* ------------------------------------ */
     font-family: 'Roboto Mono', monospace;
     color: var(--text-primary);
     padding: 20px;
     box-sizing: border-box;
-}
-
-/* --- Animaciones de Entrada --- */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
 
 @keyframes slideUp {
@@ -34,7 +26,6 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Layout Principal --- */
 .main-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -51,17 +42,16 @@ body {
 
 #twitch-embed {
     width: 100%;
-    height: 600px; /* Vídeo más grande y protagonista */
+    height: 600px;
     border-radius: 9px;
 }
 
 .main-content-grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr); /* Grid de 12 columnas */
+    grid-template-columns: repeat(12, 1fr);
     gap: 20px;
 }
 
-/* --- Tarjetas del Grid --- */
 .grid-card {
     background: var(--card-bg);
     border: 1px solid var(--medium-grey);
@@ -71,11 +61,11 @@ body {
     opacity: 0;
 }
 
-/* Posicionamiento en el grid */
 .card-stats { grid-column: span 12; animation-delay: 0.2s; }
-.card-info { grid-column: span 8; animation-delay: 0.3s; }
-.card-team { grid-column: span 4; animation-delay: 0.4s; }
-
+.card-info { grid-column: span 7; animation-delay: 0.3s; }
+.card-team { grid-column: span 5; animation-delay: 0.4s; }
+.card-kills { grid-column: span 7; animation-delay: 0.5s; }
+.card-lobby-activity { grid-column: span 5; animation-delay: 0.6s; }
 
 .card-title {
     font-size: 1.2em;
@@ -86,9 +76,6 @@ body {
     border-bottom: 1px solid var(--border-color);
 }
 
-/* --- Estilos de Componentes Específicos --- */
-
-/* Estadísticas (ahora horizontales) */
 .stats-container {
     display: flex;
     justify-content: space-around;
@@ -96,70 +83,27 @@ body {
     gap: 15px;
 }
 
-.stat {
-    text-align: center;
-}
+.stat { text-align: center; }
+.stat-value { font-size: 2em; color: var(--green-glow); font-weight: bold; }
+.stat-label { font-size: 0.8em; color: var(--text-secondary); margin-top: 5px; }
+.stat-icon { margin-right: 5px; }
 
-.stat-value {
-    font-size: 2em;
-    color: var(--green-glow);
-    font-weight: bold;
-}
+.info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2a2a2a; }
+.info-row:last-child { border-bottom: none; }
+.label { color: var(--text-secondary); }
+.value { font-weight: bold; }
+.rank-info { font-size: 1em; color: var(--rank-gold); }
 
-.stat-label {
-    font-size: 0.8em;
-    color: var(--text-secondary);
-    margin-top: 5px;
-}
+.team-list { list-style: none; padding: 0; margin: 0; }
+.team-list li { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-radius: 5px; margin-bottom: 8px; background-color: var(--dark-bg); transition: transform 0.2s ease-out, background-color 0.2s ease-out; }
+.team-list li:hover { transform: translateX(5px); background-color: var(--medium-grey); }
 
-.stat-icon {
-    margin-right: 5px;
-}
+.online-streamer-list { list-style: none; padding: 0; margin: 0; }
+.online-streamer-list a { display: block; text-decoration: none; color: var(--text-primary); }
+.online-streamer-list li { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-radius: 5px; margin-bottom: 8px; background-color: var(--dark-bg); transition: transform 0.2s ease-out, background-color 0.2s ease-out; }
+.online-streamer-list li:hover { transform: translateX(5px); background-color: var(--medium-grey); }
+.online-streamer-name { font-weight: bold; }
+.online-streamer-viewers { font-size: 0.9em; color: var(--text-secondary); }
+.online-icon { color: #eb0400; margin-right: 8px; }
 
-/* Información General */
-.info-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #2a2a2a;
-}
-.info-row:last-child {
-    border-bottom: none;
-}
-.label {
-    color: var(--text-secondary);
-}
-.value {
-    font-weight: bold;
-}
-.rank-info {
-    font-size: 1em;
-    color: var(--rank-gold);
-}
-
-/* Compañeros de equipo */
-.team-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.team-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 8px;
-    background-color: var(--dark-bg);
-    transition: transform 0.2s ease-out, background-color 0.2s ease-out;
-}
-.team-list li:hover {
-    transform: translateX(5px);
-    background-color: var(--medium-grey);
-}
-
-/* Posicionamiento en el grid */
-.card-stats { grid-column: span 12; animation-delay: 0.2s; }
-.card-info { grid-column: span 7; animation-delay: 0.3s; } /* Ajustamos el espacio */
-.card-team { grid-column: span 5; animation-delay: 0.4s; } /* Ajustamos el espacio */
-.card-kills { grid-column: span 12; animation-delay: 0.5s; } /* La nueva tarjeta ocupa todo el ancho */
+.offline-streamers-info { margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--medium-grey); text-align: center; color: var(--text-secondary); }
