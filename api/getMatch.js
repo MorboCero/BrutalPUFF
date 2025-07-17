@@ -6,21 +6,22 @@ const supabase = createClient(
 );
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  // Leemos el nuevo parámetro 'pubg_id' de la URL
+  const { pubg_id } = req.query;
 
-  if (!id) {
-    return res.status(400).json({ error: 'Match ID is required' });
+  if (!pubg_id) {
+    return res.status(400).json({ error: 'PUBG Match ID is required' });
   }
 
   try {
+    // Buscamos en la base de datos usando la columna 'pubg_match_id'
     const { data, error } = await supabase
       .from('matches')
       .select('*')
-      .eq('id', id)
+      .eq('pubg_match_id', pubg_id) // <-- CAMBIO CLAVE
       .single();
 
     if (error) {
-      // Si Supabase devuelve un error (ej. RLS), lo registramos
       console.error('Supabase error:', error);
       throw error;
     }
@@ -31,7 +32,6 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Match not found' });
     }
   } catch (error) {
-    // Si hay un error general en la función, lo registramos
     console.error('Handler error:', error);
     return res.status(500).json({ error: error.message });
   }
