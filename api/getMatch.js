@@ -1,4 +1,3 @@
-// Forzando un redespliegue para recargar las variables de entorno.
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -14,9 +13,10 @@ export default async function handler(req, res) {
   }
 
   try {
+    // ### CAMBIO CLAVE: Forzamos que los campos JSON se traten como texto ###
     const { data, error } = await supabase
       .from('matches')
-      .select('*')
+      .select('*, teammates::text, encounters::text, kills_list::text, online_streamers::text')
       .eq('pubg_match_id', pubg_id)
       .single();
 
@@ -26,6 +26,11 @@ export default async function handler(req, res) {
     }
 
     if (data) {
+      // Parseamos el texto de vuelta a JSON antes de enviarlo
+      data.teammates = JSON.parse(data.teammates || '[]');
+      data.encounters = JSON.parse(data.encounters || '[]');
+      data.kills_list = JSON.parse(data.kills_list || '[]');
+      data.online_streamers = JSON.parse(data.online_streamers || '[]');
       return res.status(200).json(data);
     } else {
       return res.status(404).json({ error: 'Match not found' });
