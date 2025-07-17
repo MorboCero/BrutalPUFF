@@ -1,3 +1,4 @@
+// Forzando un redespliegue para recargar las variables de entorno.
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -6,7 +7,6 @@ const supabase = createClient(
 );
 
 export default async function handler(req, res) {
-  // Leemos el nuevo parámetro 'pubg_id' de la URL
   const { pubg_id } = req.query;
 
   if (!pubg_id) {
@@ -14,11 +14,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Buscamos en la base de datos usando la columna 'pubg_match_id'
     const { data, error } = await supabase
       .from('matches')
       .select('*')
-      .eq('pubg_match_id', pubg_id) // <-- CAMBIO CLAVE
+      .eq('pubg_match_id', pubg_id)
       .single();
 
     if (error) {
