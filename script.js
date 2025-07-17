@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Show loader immediately
+    const loader = document.getElementById('loader');
+    const mainContainer = document.getElementById('main-container');
+    loader.style.opacity = '1';
+    mainContainer.style.opacity = '0';
+
     fetch(`/api/getMatch?id=${matchId}`)
         .then(response => {
             if (!response.ok) {
@@ -18,9 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
             fillPageData(matchData);
             createKillsList(matchData);
             createLobbyActivity(matchData);
+
+            // Hide loader and show content
+            loader.style.opacity = '0';
+            loader.style.pointerEvents = 'none';
+            mainContainer.style.opacity = '1';
         })
         .catch(error => {
             console.error('Failed to fetch match data:', error);
+            loader.style.display = 'none'; // Hide loader on error too
             document.body.innerHTML = `<h1>Error loading match data: ${error.message}</h1>`;
         });
 });
@@ -31,9 +43,9 @@ function fillPageData(matchData) {
     document.getElementById('date').textContent = matchData.match_date;
     document.getElementById('type').textContent = matchData.match_type;
     document.getElementById('map').textContent = matchData.match_map;
-    document.getElementById('killedBy').textContent = matchData.killed_by;
-    document.getElementById('killerRank').textContent = `${matchData.killer_rank_name} (${matchData.killer_rank_points} Points)`;
-    document.getElementById('position').textContent = matchData.position;
+    document.getElementById('killedBy').textContent = matchData.killed_by || 'N/A';
+    document.getElementById('killerRank').textContent = matchData.killer_rank_name !== 'Unranked' ? `${matchData.killer_rank_name} (${matchData.killer_rank_points} Points)` : 'Unranked';
+    document.getElementById('position').textContent = `#${matchData.position}`;
     document.getElementById('kills').textContent = matchData.kills;
     document.getElementById('assists').textContent = matchData.assists;
     document.getElementById('damage').textContent = Math.round(matchData.damage);
@@ -44,7 +56,7 @@ function fillPageData(matchData) {
         matchData.teammates.forEach(p => {
             const li = document.createElement('li');
             const rankText = (p.rankName !== 'Unranked') ? `(${p.rankName} - ${p.rankPoints} Points)` : '';
-            li.innerHTML = `<div>${p.name}</div><div class="rank-info">${rankText}</div>`;
+            li.innerHTML = `<div><i class="fa-solid fa-user-group"></i> ${p.name}</div><div class="rank-info">${rankText}</div>`;
             teamList.appendChild(li);
         });
     } else {
@@ -69,18 +81,19 @@ function fillPageData(matchData) {
 function createKillsList(matchData) {
     const killList = document.getElementById('kill-list');
     const card = killList.closest('.grid-card');
-    if (card) card.style.display = 'none';
-
-    if (matchData.kills_list && matchData.kills_list.length > 0) {
-        if (card) card.style.display = 'block';
-        killList.innerHTML = '';
-        matchData.kills_list.forEach(kill => {
-            const li = document.createElement('li');
-            const rankText = (kill.rankName !== 'Unranked') ? `(${kill.rankName} - ${kill.rankPoints} Points)` : '(Unranked)';
-            li.innerHTML = `<div>💀 ${kill.name}</div><div class="rank-info">${rankText}</div>`;
-            killList.appendChild(li);
-        });
+    if (!matchData.kills_list || matchData.kills_list.length === 0) {
+        if (card) card.style.display = 'none';
+        return;
     }
+    
+    if (card) card.style.display = 'block';
+    killList.innerHTML = '';
+    matchData.kills_list.forEach(kill => {
+        const li = document.createElement('li');
+        const rankText = (kill.rankName !== 'Unranked') ? `(${kill.rankName} - ${kill.rankPoints} Points)` : '(Unranked)';
+        li.innerHTML = `<div><i class="fa-solid fa-skull"></i> ${kill.name}</div><div class="rank-info">${rankText}</div>`;
+        killList.appendChild(li);
+    });
 }
 
 function createLobbyActivity(matchData) {
@@ -92,12 +105,11 @@ function createLobbyActivity(matchData) {
         return;
     }
 
-    container.innerHTML = ''; // Limpiar contenido
+    container.innerHTML = '';
 
-    // Mostrar streamers online
     if (matchData.online_streamers && matchData.online_streamers.length > 0) {
         const onlineTitle = document.createElement('h3');
-        onlineTitle.textContent = '🔴 Online Streamers';
+        onlineTitle.textContent = 'Online Streamers in Lobby';
         container.appendChild(onlineTitle);
 
         const onlineList = document.createElement('ul');
@@ -110,7 +122,7 @@ function createLobbyActivity(matchData) {
                         <span class="online-icon">●</span>
                         <span class="online-streamer-name">${streamer.name}</span>
                     </div>
-                    <div class="online-streamer-viewers">${streamer.viewers} viewers</div>
+                    <div class="online-streamer-viewers">${streamer.viewers.toLocaleString()} viewers</div>
                 </a>
             `;
             onlineList.appendChild(li);
@@ -118,7 +130,6 @@ function createLobbyActivity(matchData) {
         container.appendChild(onlineList);
     }
 
-    // Mostrar contador de streamers offline
     if (matchData.offline_streamers_count > 0) {
         const offlineInfo = document.createElement('div');
         offlineInfo.className = 'offline-streamers-info';
