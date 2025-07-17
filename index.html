@@ -3,96 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Match Summary</title>
+    <title>BRUTAL | Match Summary</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<div class="main-container">
-
-    <section class="hero-video-section">
-        <div id="twitch-embed"></div>
-    </section>
-
-    <div class="main-content-grid">
-
-        <div class="grid-card card-stats">
-            <h2 class="card-title">Match Performance</h2>
-            <div class="stats-container">
-                <div class="stat">
-                    <div class="stat-value" id="position"></div>
-                    <div class="stat-label"><span class="stat-icon">🏆</span>Position</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value" id="kills"></div>
-                    <div class="stat-label"><span class="stat-icon">💀</span>Kills</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value" id="assists"></div>
-                    <div class="stat-label"><span class="stat-icon">🤝</span>Assists</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value" id="damage"></div>
-                    <div class="stat-label"><span class="stat-icon">💥</span>Damage</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid-card card-info">
-            <h2 class="card-title">General Information</h2>
-            <div class="info-row">
-                <span class="label">Player</span>
-                <span class="value" id="playerName"></span>
-            </div>
-            <div class="info-row">
-                <span class="label">Rank</span>
-                <span class="value rank-info" id="playerRank"></span>
-            </div>
-            <div class="info-row">
-                <span class="label">Date</span>
-                <span class="value" id="date"></span>
-            </div>
-             <div class="info-row">
-                <span class="label">Type</span>
-                <span class="value" id="type"></span>
-            </div>
-            <div class="info-row">
-                <span class="label">Map</span>
-                <span class="value" id="map"></span>
-            </div>
-            <div class="info-row">
-                <span class="label">Killed by</span>
-                <span class="value" id="killedBy"></span>
-            </div>
-            <div class="info-row">
-                <span class="label">Killer's Rank</span>
-                <span class="value rank-info" id="killerRank"></span>
-            </div>
-        </div>
-
-        <div class="grid-card card-team">
-            <h2 class="card-title">Teammates</h2>
-            <ul id="team-list" class="team-list"></ul>
-        </div>
-
-        <div class="grid-card card-kills">
-            <h2 class="card-title">Kills</h2>
-            <ul id="kill-list" class="team-list"></ul>
-        </div>
-
-        <!-- NUEVA TARJETA DE ACTIVIDAD DE STREAMERS -->
-        <div class="grid-card card-lobby-activity">
-            <h2 class="card-title">Lobby Activity</h2>
-            <div id="lobby-activity-content">
-                <!-- El contenido se generará aquí -->
-            </div>
-        </div>
-
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
     </div>
 
-</div>
+    <!-- Header -->
+    <header class="site-header">
+        <h1>BRUTAL<span>PUFF</span></h1>
+        <p>Match Summary</p>
+    </header>
 
-<script src="https://embed.twitch.tv/embed/v1.js"></script>
-<script src="/script.js"></script>
+    <!-- Main Content (initially hidden) -->
+    <main class="main-container" id="main-container">
+
+        <section class="hero-video-section">
+            <div id="twitch-embed"></div>
+        </section>
+
+        <div class="main-content-grid">
+
+            <div class="grid-card card-stats">
+                <h2 class="card-title">Match Performance</h2>
+                <div class="stats-container">
+                    <div class="stat">
+                        <div class="stat-value" id="position"></div>
+                        <div class="stat-label"><i class="fa-solid fa-trophy stat-icon"></i>Position</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="kills"></div>
+                        <div class="stat-label"><i class="fa-solid fa-crosshairs stat-icon"></i>Kills</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="assists"></div>
+                        <div class="stat-label"><i class="fa-solid fa-handshake-angle stat-icon"></i>Assists</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="damage"></div>
+                        <div class="stat-label"><i class="fa-solid fa-bolt stat-icon"></i>Damage</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-card card-info">
+                <h2 class="card-title">General Information</h2>
+                <div class="info-row">
+                    <span class="label">Player</span>
+                    <span class="value" id="playerName"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Rank</span>
+                    <span class="value rank-info" id="playerRank"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Date</span>
+                    <span class="value" id="date"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Type</span>
+                    <span class="value" id="type"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Map</span>
+                    <span class="value" id="map"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Killed by</span>
+                    <span class="value" id="killedBy"></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Killer's Rank</span>
+                    <span class="value rank-info" id="killerRank"></span>
+                </div>
+            </div>
+
+            <div class="grid-card card-team">
+                <h2 class="card-title">Teammates</h2>
+                <ul id="team-list" class="team-list"></ul>
+            </div>
+
+            <div class="grid-card card-kills">
+                <h2 class="card-title">Kills</h2>
+                <ul id="kill-list" class="team-list"></ul>
+            </div>
+
+            <div class="grid-card card-lobby-activity">
+                <h2 class="card-title">Lobby Activity</h2>
+                <div id="lobby-activity-content"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2024 BrutalPUFF Project. All rights reserved.</p>
+    </footer>
+
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>
