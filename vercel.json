@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/partida/:matchId",
+      "source": "/match/:playerName/:matchId",
       "destination": "/index.html"
     }
   ]
