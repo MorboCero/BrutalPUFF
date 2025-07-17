@@ -1,19 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const pathParts = window.location.pathname.split('/');
-    const matchId = pathParts[pathParts.length - 1];
+    // --- LÓGICA MODIFICADA PARA LA NUEVA URL ---
+    // Lee la URL, ej: /match/KantQvQ/abc-123
+    const pathParts = window.location.pathname.split('/'); 
+    const pubgMatchId = pathParts[pathParts.length - 1];
 
-    if (!matchId) {
-        document.body.innerHTML = '<h1>Error: Match ID not found in URL</h1>';
+    // Comprueba que el formato de la URL sea correcto
+    if (!pubgMatchId || pathParts[1] !== 'match') {
+        document.body.innerHTML = '<h1>Error: Invalid Match URL format</h1>';
         return;
     }
+    // --- FIN DE LA LÓGICA MODIFICADA ---
 
-    // Show loader immediately
+    // Muestra el loader (tu código se mantiene)
     const loader = document.getElementById('loader');
     const mainContainer = document.getElementById('main-container');
     loader.style.opacity = '1';
     mainContainer.style.opacity = '0';
 
-    fetch(`/api/getMatch?id=${matchId}`)
+    // --- FETCH MODIFICADO ---
+    // Llama a la API con el nuevo parámetro 'pubg_id'
+    fetch(`/api/getMatch?pubg_id=${pubgMatchId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Match not found or API error (status: ${response.status})`);
@@ -21,22 +27,24 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(matchData => {
+            // Llama a tus funciones para rellenar la página (sin cambios aquí)
             fillPageData(matchData);
             createKillsList(matchData);
             createLobbyActivity(matchData);
 
-            // Hide loader and show content
+            // Oculta el loader y muestra el contenido (tu código se mantiene)
             loader.style.opacity = '0';
             loader.style.pointerEvents = 'none';
             mainContainer.style.opacity = '1';
         })
         .catch(error => {
             console.error('Failed to fetch match data:', error);
-            loader.style.display = 'none'; // Hide loader on error too
+            loader.style.display = 'none';
             document.body.innerHTML = `<h1>Error loading match data: ${error.message}</h1>`;
         });
 });
 
+// El resto de tus funciones no necesitan cambios.
 function fillPageData(matchData) {
     document.getElementById('playerName').textContent = matchData.player_name;
     document.getElementById('playerRank').textContent = `${matchData.player_rank_name} (${matchData.player_rank_points} Points)`;
