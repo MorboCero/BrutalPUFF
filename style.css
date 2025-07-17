@@ -1,109 +1,228 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
-
+/* --- General & Theme --- */
 :root {
-    --green-glow: #39FF14;
-    --dark-bg: #0A0B0F;
-    --card-bg: linear-gradient(145deg, #1a1b20, #111216);
-    --border-color: rgba(57, 255, 20, 0.2);
-    --text-primary: #EAEAEA;
-    --text-secondary: #8892b0;
-    --rank-gold: #ffc107;
-    --twitch-purple: #9146ff;
+    --bg-color: #121212;
+    --card-color: #1E1E1E;
+    --border-color: #2d2d2d;
+    --text-primary: #E0E0E0;
+    --text-secondary: #B0B0B0;
+    --accent-color: #00BFFF; /* Deep Sky Blue */
+    --rank-gold: #FFD700;
+    --rank-silver: #C0C0C0;
 }
 
-body {
-    background-color: var(--dark-bg);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cpath d='M14 5v11h-3v2h3v7h2v-7h3v-2h-3V5h-2z' fill='%231a1b20' fill-opacity='0.4'/%3E%3C/svg%3E");
-    background-size: 30px 30px;
-    font-family: 'Roboto Mono', monospace;
-    color: var(--text-primary);
-    padding: 20px;
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    padding: 20px;
 }
 
+/* --- Loader --- */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-left-color: var(--accent-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Header & Footer --- */
+.site-header, .site-footer {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+}
+.site-header h1 {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+.site-header h1 span {
+    color: var(--accent-color);
+}
+
+/* --- Main Layout --- */
 .main-container {
     max-width: 1400px;
     margin: 0 auto;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.7s ease-in-out;
 }
 
 .hero-video-section {
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    margin-bottom: 40px;
-    box-shadow: 0 0 30px rgba(57, 255, 20, 0.1);
-    animation: slideUp 0.8s ease-out;
-    background: var(--dark-bg);
-}
-
-#twitch-embed {
     width: 100%;
-    height: 600px;
-    border-radius: 9px;
+    height: 60vh;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--card-color);
+    border: 1px solid var(--border-color);
 }
 
 .main-content-grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
 }
 
+/* --- Card Design --- */
 .grid-card {
-    background: var(--card-bg);
-    border: 1px solid var(--medium-grey);
-    border-radius: 10px;
-    padding: 25px;
-    animation: slideUp 0.8s ease-out forwards;
-    opacity: 0;
+    background-color: var(--card-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.card-stats { grid-column: span 12; animation-delay: 0.2s; }
-.card-info { grid-column: span 7; animation-delay: 0.3s; }
-.card-team { grid-column: span 5; animation-delay: 0.4s; }
-.card-kills { grid-column: span 7; animation-delay: 0.5s; }
-.card-lobby-activity { grid-column: span 5; animation-delay: 0.6s; }
+.grid-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 191, 255, 0.1);
+}
 
 .card-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: var(--text-primary);
-    margin: 0 0 20px 0;
-    padding-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent-color);
+    display: inline-block;
+}
+
+/* --- Specific Card Styles --- */
+/* Stats Card */
+.stats-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    text-align: center;
+}
+.stat-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+.stat-label {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+.stat-icon {
+    margin-right: 0.5rem;
+}
+
+/* Info Card */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
     border-bottom: 1px solid var(--border-color);
 }
-
-.stats-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 15px;
+.info-row:last-child {
+    border-bottom: none;
+}
+.label {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+.value {
+    font-weight: 600;
+}
+.rank-info {
+    color: var(--rank-gold);
 }
 
-.stat { text-align: center; }
-.stat-value { font-size: 2em; color: var(--green-glow); font-weight: bold; }
-.stat-label { font-size: 0.8em; color: var(--text-secondary); margin-top: 5px; }
-.stat-icon { margin-right: 5px; }
+/* Team & Kills List */
+.team-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.team-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0,0,0,0.2);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+}
+.team-list .rank-info {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
 
-.info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2a2a2a; }
-.info-row:last-child { border-bottom: none; }
-.label { color: var(--text-secondary); }
-.value { font-weight: bold; }
-.rank-info { font-size: 1em; color: var(--rank-gold); }
+/* Lobby Activity */
+#lobby-activity-content h3 {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+.online-streamer-list {
+    list-style: none;
+    margin-bottom: 1rem;
+}
+.online-streamer-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: background-color 0.2s ease;
+}
+.online-streamer-list a:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+.online-icon {
+    color: #ff4500; /* Red for online */
+    margin-right: 0.5rem;
+}
+.offline-streamers-info {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-style: italic;
+}
 
-.team-list { list-style: none; padding: 0; margin: 0; }
-.team-list li { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-radius: 5px; margin-bottom: 8px; background-color: var(--dark-bg); transition: transform 0.2s ease-out, background-color 0.2s ease-out; }
-.team-list li:hover { transform: translateX(5px); background-color: var(--medium-grey); }
-
-.online-streamer-list { list-style: none; padding: 0; margin: 0; }
-.online-streamer-list a { display: block; text-decoration: none; color: var(--text-primary); }
-.online-streamer-list li { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-radius: 5px; margin-bottom: 8px; background-color: var(--dark-bg); transition: transform 0.2s ease-out, background-color 0.2s ease-out; }
-.online-streamer-list li:hover { transform: translateX(5px); background-color: var(--medium-grey); }
-.online-streamer-name { font-weight: bold; }
-.online-streamer-viewers { font-size: 0.9em; color: var(--text-secondary); }
-.online-icon { color: #eb0400; margin-right: 8px; }
-
-.offline-streamers-info { margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--medium-grey); text-align: center; color: var(--text-secondary); }
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    .main-content-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-video-section {
+        height: 40vh;
+    }
+    .site-header h1 {
+        font-size: 2rem;
+    }
+}
