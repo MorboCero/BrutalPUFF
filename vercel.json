@@ -3,6 +3,10 @@
     {
       "source": "/match/:playerName/:matchId",
       "destination": "/index.html"
+    },
+    {
+      "source": "/player/:playerName",
+      "destination": "/player.html"
     }
   ]
 }
