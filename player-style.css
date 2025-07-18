@@ -1,0 +1,158 @@
+/* Reutilizamos las variables y estilos base de tu style.css */
+:root {
+    --bg-color: #121212;
+    --card-color: #1E1E1E;
+    --border-color: #2d2d2d;
+    --text-primary: #E0E0E0;
+    --text-secondary: #B0B0B0;
+    --accent-color: #00BFFF;
+    --rank-gold: #FFD700;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    padding: 20px;
+}
+
+/* Reutilizamos estilos de header y footer */
+.site-header, .site-footer {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+}
+.site-header h1 {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+.site-header h1 span {
+    color: var(--accent-color);
+}
+.site-footer {
+    margin-top: 2rem;
+}
+
+/* --- Layout del Perfil --- */
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-header h1 {
+    font-size: 3rem;
+    color: var(--accent-color);
+}
+
+.stats-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    background: var(--card-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.summary-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.summary-card p {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.match-history {
+    background: var(--card-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.match-history h2 {
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent-color);
+    display: inline-block;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+#history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#history-table th, #history-table td {
+    padding: 1rem;
+    text-align: left;
+}
+
+#history-table thead {
+    border-bottom: 2px solid var(--border-color);
+}
+
+#history-table th {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+#history-table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+}
+
+#history-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+#history-table tbody tr:hover {
+    background-color: #25262c;
+}
+
+#history-table td .link-icon {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 1.2em;
+    text-align: center;
+    display: block;
+}
