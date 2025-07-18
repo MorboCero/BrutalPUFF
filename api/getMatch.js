@@ -6,10 +6,10 @@ const supabase = createClient(
 );
 
 export default async function handler(req, res) {
-  const { pubg_id } = req.query;
+  const { pubg_id, player_name } = req.query;
 
-  if (!pubg_id) {
-    return res.status(400).json({ error: 'PUBG Match ID is required' });
+  if (!pubg_id || !player_name) {
+    return res.status(400).json({ error: 'PUBG Match ID and Player Name are required' });
   }
 
   try {
@@ -18,6 +18,7 @@ export default async function handler(req, res) {
       .from('matches')
       .select('*, teammates::text, encounters::text, kills_list::text, online_streamers::text')
       .eq('pubg_match_id', pubg_id)
+      .eq('player_name', player_name)
       .single();
 
     if (error) {
@@ -33,7 +34,7 @@ export default async function handler(req, res) {
       data.online_streamers = JSON.parse(data.online_streamers || '[]');
       return res.status(200).json(data);
     } else {
-      return res.status(404).json({ error: 'Match not found' });
+      return res.status(404).json({ error: 'Match not found for this player' });
     }
   } catch (error) {
     console.error('Handler error:', error);
