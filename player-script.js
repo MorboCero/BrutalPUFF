@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.title = `${playerName} - Player Stats`;
     document.getElementById('playerName').textContent = playerName;
     
+    const loader = document.getElementById('loader');
+    const profileContent = document.getElementById('profile-content');
+
     fetch(`/api/getPlayerMatches?player=${playerName}`)
         .then(response => {
             if (!response.ok) {
@@ -18,8 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(matches => {
+            loader.style.display = 'none';
+            profileContent.style.display = 'block';
+
             if (matches.length === 0) {
-                document.getElementById('history-body').innerHTML = '<tr><td colspan="6">No match data found for this player.</td></tr>';
+                document.getElementById('history-body').innerHTML = '<tr><td colspan="6">No match data found for this player. The bot will analyze recent matches now. Please refresh in a moment.</td></tr>';
                 document.getElementById('matches-analyzed').textContent = '0';
                 return;
             }
@@ -28,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error('Failed to fetch match data:', error);
-            document.getElementById('history-body').innerHTML = `<tr><td colspan="6">Error: ${error.message}</td></tr>`;
+            loader.style.display = 'none';
+            profileContent.innerHTML = `<h1>Error loading player data: ${error.message}</h1>`;
         });
 });
 
@@ -49,8 +56,8 @@ function calculateAndDisplayStats(matches) {
 
     const matchesAnalyzed = matches.length;
     const kdRatio = deathCount > 0 ? (totalKills / deathCount).toFixed(2) : totalKills.toFixed(2);
-    const avgDamage = (totalDamage / matchesAnalyzed).toFixed(2);
-    const avgPosition = (totalPlacement / matchesAnalyzed).toFixed(2);
+    const avgDamage = (totalDamage / matchesAnalyzed);
+    const avgPosition = (totalPlacement / matchesAnalyzed);
 
     document.getElementById('kd-ratio').textContent = kdRatio;
     document.getElementById('avg-damage').textContent = Math.round(avgDamage);
@@ -62,7 +69,7 @@ function populateMatchHistory(matches) {
     const tableBody = document.getElementById('history-body');
     tableBody.innerHTML = '';
 
-    const recentMatches = matches.slice(0, 50); // Mostramos hasta 50 partidas
+    const recentMatches = matches.slice(0, 50);
 
     recentMatches.forEach(match => {
         const row = document.createElement('tr');
