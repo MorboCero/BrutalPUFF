@@ -4,78 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Stats</title>
-    
-    <!-- Google Fonts: Poppins (reutilizado) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome Icons (reutilizado) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Nuevo archivo CSS para esta página -->
+    <!-- Usaremos un archivo CSS nuevo y dedicado para esta página -->
     <link rel="stylesheet" href="/player-style.css">
 </head>
 <body>
-
-    <!-- Reutilizamos el header del sitio -->
+    <!-- Reutilizamos el header del sitio para consistencia -->
     <header class="site-header">
         <h1>BRUTAL<span>PUFF</span></h1>
         <p>Player Profile</p>
     </header>
 
     <main class="profile-container" id="main-container">
+        <!-- Loader específico para esta página -->
+        <div id="loader">
+            <div class="spinner"></div>
+            <p>Analyzing player data...</p>
+        </div>
 
-        <!-- Cabecera del perfil -->
-        <header class="profile-header">
-            <h1 id="playerName">Loading...</h1>
-        </header>
+        <!-- Contenido del perfil (oculto hasta que carguen los datos) -->
+        <div id="profile-content" style="display: none;">
+            <header class="profile-header">
+                <h1 id="playerName">Loading...</h1>
+            </header>
 
-        <!-- Resumen de estadísticas -->
-        <section class="stats-summary-grid">
-            <div class="summary-card">
-                <h3><i class="fa-solid fa-crosshairs"></i> K/D Ratio</h3>
-                <p id="kd-ratio">--</p>
-            </div>
-            <div class="summary-card">
-                <h3><i class="fa-solid fa-bolt"></i> Avg. Damage (ADR)</h3>
-                <p id="avg-damage">--</p>
-            </div>
-            <div class="summary-card">
-                <h3><i class="fa-solid fa-trophy"></i> Avg. Position</h3>
-                <p id="avg-position">--</p>
-            </div>
-            <div class="summary-card">
-                <h3><i class="fa-solid fa-gamepad"></i> Matches Analyzed</h3>
-                <p id="matches-analyzed">--</p>
-            </div>
-        </section>
+            <section class="stats-summary-grid">
+                <div class="summary-card">
+                    <h3><i class="fa-solid fa-crosshairs"></i> K/D Ratio</h3>
+                    <p id="kd-ratio">--</p>
+                </div>
+                <div class="summary-card">
+                    <h3><i class="fa-solid fa-bolt"></i> Avg. Damage (ADR)</h3>
+                    <p id="avg-damage">--</p>
+                </div>
+                <div class="summary-card">
+                    <h3><i class="fa-solid fa-trophy"></i> Avg. Position</h3>
+                    <p id="avg-position">--</p>
+                </div>
+                <div class="summary-card">
+                    <h3><i class="fa-solid fa-gamepad"></i> Matches Analyzed</h3>
+                    <p id="matches-analyzed">--</p>
+                </div>
+            </section>
 
-        <!-- Historial de partidas -->
-        <section class="match-history">
-            <h2>Recent Match History</h2>
-            <div class="table-container">
-                <table id="history-table">
-                    <thead>
-                        <tr>
-                            <th>Map</th>
-                            <th>Position</th>
-                            <th>Kills</th>
-                            <th>Damage</th>
-                            <th>Date</th>
-                            <th>Link</th>
-                        </tr>
-                    </thead>
-                    <tbody id="history-body">
-                        <!-- Las filas se generarán aquí -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
+            <section class="match-history">
+                <h2>Recent Match History</h2>
+                <div class="table-container">
+                    <table id="history-table">
+                        <thead>
+                            <tr>
+                                <th>Map</th>
+                                <th>Position</th>
+                                <th>Kills</th>
+                                <th>Damage</th>
+                                <th>Date</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body">
+                            <!-- Las filas se generarán aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
     </main>
 
-    <!-- Reutilizamos el footer del sitio -->
     <footer class="site-footer">
         <p>&copy; 2024 BrutalPUFF Project. All rights reserved.</p>
     </footer>
@@ -83,4 +80,3 @@
     <script src="/player-script.js"></script>
 </body>
 </html>
-
