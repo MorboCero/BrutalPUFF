@@ -1,24 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- LÓGICA MODIFICADA PARA LA NUEVA URL ---
-    // Lee la URL, ej: /match/KantQvQ/abc-123
-    const pathParts = window.location.pathname.split('/'); 
+    const pathParts = window.location.pathname.split('/');
     const pubgMatchId = pathParts[pathParts.length - 1];
 
-    // Comprueba que el formato de la URL sea correcto
     if (!pubgMatchId || pathParts[1] !== 'match') {
         document.body.innerHTML = '<h1>Error: Invalid Match URL format</h1>';
         return;
     }
-    // --- FIN DE LA LÓGICA MODIFICADA ---
 
-    // Muestra el loader (tu código se mantiene)
     const loader = document.getElementById('loader');
     const mainContainer = document.getElementById('main-container');
     loader.style.opacity = '1';
     mainContainer.style.opacity = '0';
 
-    // --- FETCH MODIFICADO ---
-    // Llama a la API con el nuevo parámetro 'pubg_id'
     fetch(`/api/getMatch?pubg_id=${pubgMatchId}`)
         .then(response => {
             if (!response.ok) {
@@ -27,12 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(matchData => {
-            // Llama a tus funciones para rellenar la página (sin cambios aquí)
             fillPageData(matchData);
             createKillsList(matchData);
             createLobbyActivity(matchData);
 
-            // Oculta el loader y muestra el contenido (tu código se mantiene)
             loader.style.opacity = '0';
             loader.style.pointerEvents = 'none';
             mainContainer.style.opacity = '1';
@@ -44,14 +35,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-// El resto de tus funciones no necesitan cambios.
 function fillPageData(matchData) {
+    // --- MODIFICADO: Rellenar enlaces en lugar de solo texto ---
+    const playerNameLink = document.getElementById('playerNameLink');
+    playerNameLink.href = `/player/${matchData.player_name}`;
     document.getElementById('playerName').textContent = matchData.player_name;
+
+    const killedByLink = document.getElementById('killedByLink');
+    if (matchData.killed_by) {
+        killedByLink.href = `/player/${matchData.killed_by}`;
+        document.getElementById('killedBy').textContent = matchData.killed_by;
+    } else {
+        document.getElementById('killedBy').textContent = 'N/A';
+        killedByLink.removeAttribute('href'); // Quitar el enlace si no hay asesino
+    }
+    // --- FIN DE MODIFICACIONES ---
+
     document.getElementById('playerRank').textContent = `${matchData.player_rank_name} (${matchData.player_rank_points} Points)`;
     document.getElementById('date').textContent = matchData.match_date;
     document.getElementById('type').textContent = matchData.match_type;
     document.getElementById('map').textContent = matchData.match_map;
-    document.getElementById('killedBy').textContent = matchData.killed_by || 'N/A';
     document.getElementById('killerRank').textContent = matchData.killer_rank_name !== 'Unranked' ? `${matchData.killer_rank_name} (${matchData.killer_rank_points} Points)` : 'Unranked';
     document.getElementById('position').textContent = `#${matchData.position}`;
     document.getElementById('kills').textContent = matchData.kills;
@@ -64,7 +67,8 @@ function fillPageData(matchData) {
         matchData.teammates.forEach(p => {
             const li = document.createElement('li');
             const rankText = (p.rankName !== 'Unranked') ? `(${p.rankName} - ${p.rankPoints} Points)` : '';
-            li.innerHTML = `<div><i class="fa-solid fa-user-group"></i> ${p.name}</div><div class="rank-info">${rankText}</div>`;
+            // --- MODIFICADO: El nombre del compañero ahora es un enlace ---
+            li.innerHTML = `<div><i class="fa-solid fa-user-group"></i> <a href="/player/${p.name}">${p.name}</a></div><div class="rank-info">${rankText}</div>`;
             teamList.appendChild(li);
         });
     } else {
@@ -99,7 +103,8 @@ function createKillsList(matchData) {
     matchData.kills_list.forEach(kill => {
         const li = document.createElement('li');
         const rankText = (kill.rankName !== 'Unranked') ? `(${kill.rankName} - ${kill.rankPoints} Points)` : '(Unranked)';
-        li.innerHTML = `<div><i class="fa-solid fa-skull"></i> ${kill.name}</div><div class="rank-info">${rankText}</div>`;
+        // --- MODIFICADO: El nombre de la víctima ahora es un enlace ---
+        li.innerHTML = `<div><i class="fa-solid fa-skull"></i> <a href="/player/${kill.name}">${kill.name}</a></div><div class="rank-info">${rankText}</div>`;
         killList.appendChild(li);
     });
 }
@@ -108,7 +113,7 @@ function createLobbyActivity(matchData) {
     const container = document.getElementById('lobby-activity-content');
     const card = container.closest('.grid-card');
     
-    if (!matchData.online_streamers && !matchData.offline_streamers_count) {
+    if ((!matchData.online_streamers || matchData.online_streamers.length === 0) && (!matchData.offline_streamers_count || matchData.offline_streamers_count === 0)) {
         if(card) card.style.display = 'none';
         return;
     }
