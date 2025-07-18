@@ -74,15 +74,25 @@ body {
     transition: opacity 0.7s ease-in-out;
 }
 
+/* --- SECCIÓN DEL VÍDEO CORREGIDA --- */
 .hero-video-section {
     width: 100%;
-    height: 60vh;
-    margin-bottom: 2rem;
+    max-width: 1200px; /* Un ancho máximo para pantallas muy grandes */
+    margin: 0 auto 2rem auto;
     border-radius: 12px;
     overflow: hidden;
     background-color: var(--card-color);
     border: 1px solid var(--border-color);
+    /* Forzamos la proporción 16:9 */
+    aspect-ratio: 16 / 9;
 }
+
+/* Hacemos que el div del embed ocupe todo el espacio del contenedor */
+#twitch-embed {
+    width: 100%;
+    height: 100%;
+}
+/* --- FIN DE LA CORRECCIÓN --- */
 
 .main-content-grid {
     display: grid;
@@ -115,7 +125,6 @@ body {
 }
 
 /* --- Specific Card Styles --- */
-/* Stats Card */
 .stats-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -135,7 +144,6 @@ body {
     margin-right: 0.5rem;
 }
 
-/* Info Card */
 .info-row {
     display: flex;
     justify-content: space-between;
@@ -155,8 +163,16 @@ body {
 .rank-info {
     color: var(--rank-gold);
 }
+.player-link {
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+.player-link:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
 
-/* Team & Kills List */
 .team-list {
     list-style: none;
     display: flex;
@@ -176,8 +192,15 @@ body {
     font-size: 0.9rem;
     color: var(--text-secondary);
 }
+.team-list a {
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+.team-list a:hover {
+    color: var(--accent-color);
+}
 
-/* Lobby Activity */
 #lobby-activity-content h3 {
     margin-bottom: 1rem;
     color: var(--accent-color);
@@ -200,7 +223,7 @@ body {
     background-color: rgba(255,255,255,0.1);
 }
 .online-icon {
-    color: #ff4500; /* Red for online */
+    color: #ff4500;
     margin-right: 0.5rem;
 }
 .offline-streamers-info {
@@ -219,34 +242,7 @@ body {
     .main-content-grid {
         grid-template-columns: 1fr;
     }
-    .hero-video-section {
-        height: 40vh;
-    }
     .site-header h1 {
         font-size: 2rem;
     }
-}
-
-/* Estilo para los nuevos enlaces de jugador */
-.player-link {
-    text-decoration: none;
-    color: var(--text-primary);
-    font-weight: 600;
-    transition: color 0.2s ease;
-}
-
-.player-link:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
-}
-
-/* Estilo específico para los enlaces en las listas */
-.team-list a {
-    text-decoration: none;
-    color: var(--text-primary);
-    transition: color 0.2s ease;
-}
-
-.team-list a:hover {
-    color: var(--accent-color);
 }
