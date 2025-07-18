@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const pathParts = window.location.pathname.split('/');
+    const playerName = pathParts[pathParts.length - 2];
     const pubgMatchId = pathParts[pathParts.length - 1];
 
-    if (!pubgMatchId || pathParts[1] !== 'match') {
+    if (!pubgMatchId || !playerName || pathParts[1] !== 'match') {
         document.body.innerHTML = '<h1>Error: Invalid Match URL format</h1>';
         return;
     }
@@ -12,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loader.style.opacity = '1';
     mainContainer.style.opacity = '0';
 
-    fetch(`/api/getMatch?pubg_id=${pubgMatchId}`)
+    fetch(`/api/getMatch?pubg_id=${pubgMatchId}&player_name=${playerName}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Match not found or API error (status: ${response.status})`);
