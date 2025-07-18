@@ -6,7 +6,7 @@
     },
     {
       "source": "/match/:playerName/:matchId",
-      "destination": "/index.html"
+      "destination": "/match.html"
     },
     {
       "source": "/player/:playerName",
