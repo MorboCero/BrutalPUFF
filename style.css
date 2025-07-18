@@ -226,3 +226,27 @@ body {
         font-size: 2rem;
     }
 }
+
+/* Estilo para los nuevos enlaces de jugador */
+.player-link {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.player-link:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Estilo específico para los enlaces en las listas */
+.team-list a {
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+
+.team-list a:hover {
+    color: var(--accent-color);
+}
