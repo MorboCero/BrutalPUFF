@@ -57,6 +57,17 @@ body {
     margin-bottom: 2rem;
     color: var(--text-secondary);
 }
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.site-header .header-logo {
+    height: 60px;
+}
+.site-header .title-block {
+    margin: 0 20px;
+}
 .site-header h1 {
     color: var(--text-primary);
     font-weight: 700;
