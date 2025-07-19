@@ -77,6 +77,7 @@ function populateMatchHistory(matches) {
 
         row.innerHTML = `
             <td>${match.match_map}</td>
+            <td>${match.match_type || 'N/A'}</td>
             <td>#${match.position}</td>
             <td>${match.kills}</td>
             <td>${Math.round(match.damage)}</td>
