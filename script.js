@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fillPageData(matchData) {
-    // --- MODIFICADO: Rellenar enlaces en lugar de solo texto ---
     const playerNameLink = document.getElementById('playerNameLink');
     playerNameLink.href = `/player/${matchData.player_name}`;
     document.getElementById('playerName').textContent = matchData.player_name;
@@ -48,9 +47,8 @@ function fillPageData(matchData) {
         document.getElementById('killedBy').textContent = matchData.killed_by;
     } else {
         document.getElementById('killedBy').textContent = 'N/A';
-        killedByLink.removeAttribute('href'); // Quitar el enlace si no hay asesino
+        killedByLink.removeAttribute('href'); 
     }
-    // --- FIN DE MODIFICACIONES ---
 
     document.getElementById('playerRank').textContent = `${matchData.player_rank_name} (${matchData.player_rank_points} Points)`;
     document.getElementById('date').textContent = matchData.match_date;
@@ -68,7 +66,6 @@ function fillPageData(matchData) {
         matchData.teammates.forEach(p => {
             const li = document.createElement('li');
             const rankText = (p.rankName !== 'Unranked') ? `(${p.rankName} - ${p.rankPoints} Points)` : '';
-            // --- MODIFICADO: El nombre del compañero ahora es un enlace ---
             li.innerHTML = `<div><i class="fa-solid fa-user-group"></i> <a href="/player/${p.name}">${p.name}</a></div><div class="rank-info">${rankText}</div>`;
             teamList.appendChild(li);
         });
@@ -104,7 +101,6 @@ function createKillsList(matchData) {
     matchData.kills_list.forEach(kill => {
         const li = document.createElement('li');
         const rankText = (kill.rankName !== 'Unranked') ? `(${kill.rankName} - ${kill.rankPoints} Points)` : '(Unranked)';
-        // --- MODIFICADO: El nombre de la víctima ahora es un enlace ---
         li.innerHTML = `<div><i class="fa-solid fa-skull"></i> <a href="/player/${kill.name}">${kill.name}</a></div><div class="rank-info">${rankText}</div>`;
         killList.appendChild(li);
     });
