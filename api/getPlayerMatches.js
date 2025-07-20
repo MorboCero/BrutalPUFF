@@ -78,10 +78,10 @@ export default async function handler(req, res) {
             kills: stats.kills,
             assists: stats.assists,
             damage: Math.round(stats.damageDealt),
-            killed_by: killer_name, 
-            teammates: teammates_json,
+            killed_by: [], 
+            teammates: [],
             encounters: [],
-            kills_list: [kills_list_json],
+            kills_list: [],
             online_streamers: [],
             offline_streamers_count: 0
         };
