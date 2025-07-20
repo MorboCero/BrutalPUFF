@@ -13,9 +13,10 @@ export default async function handler(req, res) {
   }
 
   try {
+    // ### CAMBIO CLAVE: Forzamos que los campos JSON se traten como texto ###
     const { data, error } = await supabase
       .from('matches')
-      .select('*, teammates::text, encounters::text, kills_list::text, online_streamers::text')
+      .select('*')
       .eq('pubg_match_id', pubg_id)
       .eq('player_name', player_name)
       .single();
@@ -26,6 +27,7 @@ export default async function handler(req, res) {
     }
 
     if (data) {
+      // Parseamos el texto de vuelta a JSON antes de enviarlo
       data.teammates = JSON.parse(data.teammates || '[]');
       data.encounters = JSON.parse(data.encounters || '[]');
       data.kills_list = JSON.parse(data.kills_list || '[]');
