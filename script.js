@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillPageData(matchData);
             createKillsList(matchData);
             createLobbyActivity(matchData);
+            createKillFeed(matchData);
 
             loader.style.opacity = '0';
             loader.style.pointerEvents = 'none';
@@ -35,6 +36,50 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.innerHTML = `<h1>Error loading match data: ${error.message}</h1>`;
         });
 });
+
+function highlightPlayerName(text, playerName) {
+    const regex = new RegExp(`\\b(${playerName})\\b`, 'gi');
+    return text.replace(regex, '<span class="highlight-player">$1</span>');
+}
+
+function createKillFeed(matchData) {
+    const killFeedList = document.getElementById('kill-feed-list');
+    const card = killFeedList.closest('.grid-card');
+    const mainPlayerName = matchData.player_name;
+
+    if (!matchData.kill_feed || matchData.kill_feed.length === 0) {
+        if (card) card.style.display = 'none';
+        return;
+    }
+
+    if (card) card.style.display = 'block';
+    killFeedList.innerHTML = '';
+
+    matchData.kill_feed.forEach(kill => {
+        const li = document.createElement('li');
+        li.className = 'kill-feed-item';
+
+        let killText = `[${kill.time}] ${kill.killer} <i class="fa-solid fa-crosshairs"></i> ${kill.victim} with ${kill.weapon}`;
+        
+        // Resaltar al jugador principal y a sus compañeros
+        let isPlayerInvolved = false;
+        if (kill.killer === mainPlayerName || kill.victim === mainPlayerName) {
+            isPlayerInvolved = true;
+        }
+        matchData.teammates.forEach(teammate => {
+            if (kill.killer === teammate.name || kill.victim === teammate.name) {
+                isPlayerInvolved = true;
+            }
+        });
+
+        if (isPlayerInvolved) {
+            li.classList.add('involved');
+        }
+
+        li.innerHTML = highlightPlayerName(killText, mainPlayerName);
+        killFeedList.appendChild(li);
+    });
+}
 
 function fillPageData(matchData) {
     const playerNameLink = document.getElementById('playerNameLink');
