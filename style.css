@@ -208,9 +208,59 @@ body {
     margin-bottom: 1rem;
     color: var(--accent-color);
 }
+.grid-card.card-kill-feed .team-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.kill-feed-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 5px;
+    border-bottom: 1px solid #333;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.kill-feed-item.involved {
+    background-color: rgba(255, 215, 0, 0.05);
+    border-left: 2px solid var(--accent-color);
+    padding-left: 8px;
+}
+
+.kill-feed-item .fa-crosshairs {
+    color: #e74c3c;
+    margin: 0 8px;
+}
+
+.highlight-player {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Scrollbar Styles */
+.card-kill-feed .team-list::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+.card-kill-feed .team-list::-webkit-scrollbar-track {
+    background: #2a2a2a;
+}
+ 
+.card-kill-feed .team-list::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 5px;
+}
+
+.card-kill-feed .team-list::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
+
 .online-streamer-list {
     list-style: none;
-    margin-bottom: 1rem;
+    padding: 0;
+    margin-top: 10px;
 }
 .online-streamer-list a {
     display: flex;
