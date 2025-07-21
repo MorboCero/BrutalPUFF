@@ -46,6 +46,7 @@ function createKillFeed(matchData) {
     const killFeedList = document.getElementById('kill-feed-list');
     const card = killFeedList.closest('.grid-card');
     const mainPlayerName = matchData.player_name;
+    const teamNames = [mainPlayerName, ...(matchData.teammates || []).map(t => t.name)];
 
     if (!matchData.kill_feed || matchData.kill_feed.length === 0) {
         if (card) card.style.display = 'none';
@@ -59,24 +60,24 @@ function createKillFeed(matchData) {
         const li = document.createElement('li');
         li.className = 'kill-feed-item';
 
-        let killText = `[${kill.time}] ${kill.killer} <i class="fa-solid fa-crosshairs"></i> ${kill.victim} with ${kill.weapon}`;
-        
-        // Resaltar al jugador principal y a sus compañeros
-        let isPlayerInvolved = false;
-        if (kill.killer === mainPlayerName || kill.victim === mainPlayerName) {
-            isPlayerInvolved = true;
-        }
-        matchData.teammates.forEach(teammate => {
-            if (kill.killer === teammate.name || kill.victim === teammate.name) {
-                isPlayerInvolved = true;
-            }
-        });
+        // Crear el contenido del elemento de la lista
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'kill-time';
+        timeSpan.textContent = `[${kill.time}]`;
 
+        const textSpan = document.createElement('span');
+        textSpan.className = 'kill-text';
+        textSpan.innerHTML = highlightPlayerName(kill.text, mainPlayerName);
+
+        li.appendChild(timeSpan);
+        li.appendChild(textSpan);
+
+        // Resaltar si un miembro del equipo está involucrado
+        const isPlayerInvolved = teamNames.some(name => kill.text.includes(name));
         if (isPlayerInvolved) {
             li.classList.add('involved');
         }
 
-        li.innerHTML = highlightPlayerName(killText, mainPlayerName);
         killFeedList.appendChild(li);
     });
 }
