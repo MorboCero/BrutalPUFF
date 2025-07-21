@@ -216,11 +216,21 @@ body {
 
 .kill-feed-item {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     padding: 8px 5px;
     border-bottom: 1px solid #333;
     font-size: 0.9rem;
     color: #ccc;
+}
+
+.kill-feed-item .kill-time {
+    color: #888;
+    margin-right: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.kill-feed-item .kill-text {
+    flex-grow: 1;
 }
 
 .kill-feed-item.involved {
@@ -229,7 +239,7 @@ body {
     padding-left: 8px;
 }
 
-.kill-feed-item .fa-crosshairs {
+.kill-feed-item .kill-text .fa-crosshairs {
     color: #e74c3c;
     margin: 0 8px;
 }
