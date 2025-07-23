@@ -150,21 +150,31 @@ function createKillsList(matchData) {
         const li = document.createElement('li');
         const rankText = (kill.rankName !== 'Unranked') ? `(${kill.rankName} - ${kill.rankPoints} Points)` : '(Unranked)';
         
+        // Lógica mejorada para encontrar el arma
         const killEvent = matchData.kill_feed.find(event => {
             const killerIndex = event.text.indexOf(mainPlayerName);
             const victimIndex = event.text.indexOf(kill.name);
+            // Asegura que el jugador principal es el asesino y la víctima es la correcta
             return killerIndex !== -1 && victimIndex !== -1 && killerIndex < victimIndex;
         });
 
         let weaponText = '';
         if (killEvent) {
-            const weaponMatch = killEvent.text.match(/ with (.*)$/);
+            // Extrae el arma del formato: "Killer [Weapon] Victim"
+            const weaponMatch = killEvent.text.match(/\[(.*?)\]/);
             if (weaponMatch && weaponMatch[1]) {
-                weaponText = `<span class="kill-weapon">(${weaponMatch[1]})</span>`;
+                weaponText = `<span class="kill-weapon">${weaponMatch[1]}</span>`;
             }
         }
 
-        li.innerHTML = `<div><i class="fa-solid fa-skull"></i> <a href="/player/${kill.name}">${kill.name}</a> ${weaponText}</div><div class="rank-info">${rankText}</div>`;
+        // Construye el HTML final para el elemento de la lista
+        li.innerHTML = `
+            <div>
+                <i class="fa-solid fa-skull"></i> 
+                <a href="/player/${kill.name}">${kill.name}</a> 
+                ${weaponText}
+            </div>
+            <div class="rank-info">${rankText}</div>`;
         killList.appendChild(li);
     });
 }
@@ -214,3 +224,4 @@ function createLobbyActivity(matchData) {
         container.appendChild(offlineInfo);
     }
 }
+
