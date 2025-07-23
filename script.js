@@ -137,6 +137,8 @@ function fillPageData(matchData) {
 function createKillsList(matchData) {
     const killList = document.getElementById('kill-list');
     const card = killList.closest('.grid-card');
+    const mainPlayerName = matchData.player_name;
+
     if (!matchData.kills_list || matchData.kills_list.length === 0) {
         if (card) card.style.display = 'none';
         return;
@@ -147,7 +149,20 @@ function createKillsList(matchData) {
     matchData.kills_list.forEach(kill => {
         const li = document.createElement('li');
         const rankText = (kill.rankName !== 'Unranked') ? `(${kill.rankName} - ${kill.rankPoints} Points)` : '(Unranked)';
-        li.innerHTML = `<div><i class="fa-solid fa-skull"></i> <a href="/player/${kill.name}">${kill.name}</a></div><div class="rank-info">${rankText}</div>`;
+        
+        const killEvent = matchData.kill_feed.find(event => 
+            event.text.includes(mainPlayerName) && event.text.includes(kill.name) && event.text.includes('killed')
+        );
+
+        let weaponText = '';
+        if (killEvent) {
+            const weaponMatch = killEvent.text.match(/ with (.*)$/);
+            if (weaponMatch && weaponMatch[1]) {
+                weaponText = `<span class="kill-weapon">(${weaponMatch[1]})</span>`;
+            }
+        }
+
+        li.innerHTML = `<div><i class="fa-solid fa-skull"></i> <a href="/player/${kill.name}">${kill.name}</a> ${weaponText}</div><div class="rank-info">${rankText}</div>`;
         killList.appendChild(li);
     });
 }
