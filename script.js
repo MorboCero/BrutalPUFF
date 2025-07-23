@@ -189,7 +189,11 @@ function createLobbyActivity(matchData) {
     if (matchData.offline_streamers_count > 0) {
         const offlineInfo = document.createElement('div');
         offlineInfo.className = 'offline-streamers-info';
-        offlineInfo.textContent = `And ${matchData.offline_streamers_count} other known streamers were offline.`;
+        if (matchData.online_streamers && matchData.online_streamers.length > 0) {
+            offlineInfo.textContent = `And ${matchData.offline_streamers_count} other known streamers were offline.`;
+        } else {
+            offlineInfo.textContent = `No streamers were online, but ${matchData.offline_streamers_count} other known streamers were offline.`;
+        }
         container.appendChild(offlineInfo);
     }
 }
