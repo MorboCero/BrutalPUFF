@@ -150,9 +150,11 @@ function createKillsList(matchData) {
         const li = document.createElement('li');
         const rankText = (kill.rankName !== 'Unranked') ? `(${kill.rankName} - ${kill.rankPoints} Points)` : '(Unranked)';
         
-        const killEvent = matchData.kill_feed.find(event => 
-            event.text.includes(mainPlayerName) && event.text.includes(kill.name) && event.text.includes('killed')
-        );
+        const killEvent = matchData.kill_feed.find(event => {
+            const killerIndex = event.text.indexOf(mainPlayerName);
+            const victimIndex = event.text.indexOf(kill.name);
+            return killerIndex !== -1 && victimIndex !== -1 && killerIndex < victimIndex;
+        });
 
         let weaponText = '';
         if (killEvent) {
