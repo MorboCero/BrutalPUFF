@@ -192,7 +192,7 @@ function createLobbyActivity(matchData) {
         if (matchData.online_streamers && matchData.online_streamers.length > 0) {
             offlineInfo.textContent = `And ${matchData.offline_streamers_count} other known streamers were offline.`;
         } else {
-            offlineInfo.textContent = `No streamers were online, but ${matchData.offline_streamers_count} other known streamers were offline.`;
+            offlineInfo.textContent = `No streamers were online, ${matchData.offline_streamers_count} known streamers were offline.`;
         }
         container.appendChild(offlineInfo);
     }
